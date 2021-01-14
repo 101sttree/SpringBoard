@@ -7,8 +7,7 @@ import com.spring.board.VO.BoardVO;
 public interface boardMapper 
 {
 	public List<BoardVO> boardlist();
-	public int boardwrite(BoardVO vo);
 	public BoardVO boarddetail(int bno);
-		
-	
+	public int boardwrite(BoardVO vo);
+	public int boarddelete(int bno);
 }

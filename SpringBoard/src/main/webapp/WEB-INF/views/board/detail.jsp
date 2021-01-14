@@ -30,6 +30,7 @@
 			<tr>
 				<td colspan="4" align="right">
 					<input type="button" value="수정하기" onclick="location.href='/board/mody'">
+					<input type="button" value="삭제하기" onclick="location.href='/board/delete?bno=${vo.bno}'">
 					<input type="button" value="메인으로" onclick="location.href='/'">
 				</td>
 			</tr>

@@ -29,4 +29,9 @@
 		select * from boardtb
 		where bno = #{bno}
 	</select>
+	
+	<delete id="boarddelete" parameterType="int">
+		delete from boardtb
+		where bno = #{bno}
+	</delete>
 </mapper>

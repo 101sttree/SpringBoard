@@ -28,6 +28,7 @@ public class boardController
 	public String detail(Locale locale, Model model, int bno) 
 	{
 		
+		
 		BoardVO vo = mapper.boarddetail(bno);
 		
 		model.addAttribute("vo",vo);
@@ -37,7 +38,7 @@ public class boardController
 	
 	
 	 @GetMapping(value = "/")
-	 public String boardlist(Model model) 
+	 public String boardlist (Model model) 
 	 {
 		 List<BoardVO> list = mapper.boardlist();
 		  
@@ -47,19 +48,16 @@ public class boardController
 	 }
 	 
 	@PostMapping(value = "/board/write") 
-	public String boardwrite
-	(
-			Model model, 
-			BoardVO vo,
-			HttpServletRequest request
-			 
-	) throws Exception
+	public String boardwrite (Model model, BoardVO vo) 
 	{
-		 request.setCharacterEncoding("UTF-8");
-		 int write = mapper.boardwrite(vo);
-		 
-		 return "redirect:/";
+		int write = mapper.boardwrite(vo);
+		return "redirect:/";
 	}
 	 
-	
+	@GetMapping(value = "/board/delete")
+	public String boarddelete (Model model, int bno)
+	{
+		int delete = mapper.boarddelete(bno);
+		return "redirect:/";
+	}
 }
