@@ -1,34 +1,37 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>±Û ÀÛ¼º</title>
+<meta charset="UTF-8">
+<title>ê¸€ ìž‘ì„±</title>
 </head>
 <body>
-	<form>
+	<form action="/board/write" method="post" name="frm">
+		<input type="hidden" value="1" name="uno">
 		<table style="margin: auto; margin-top: 15%;">
 			<tr>
-				<th>ÀÛ¼ºÀÚ</th>
-				<td>È«±æµ¿</td>
-				<th>ÀÛ¼ºÀÏ</th>
+				<th>ìž‘ì„±ìž</th>
+				<td><input type="text" name="writer"></td>
+				<th>ìž‘ì„±ì¼</th>
 				<td>2020-01-12</td>
 			</tr>
 			<tr>
-				<th>Á¦¸ñ</th>
-				<td colspan="3"><input type="text" placeholder="Á¦¸ñÀ» ÀÔ·ÂÇÏ¼¼¿ä" style="width: 98%;"></td>
+				<th>ì œëª©</th>
+				<td colspan="3">
+					<input type="text" placeholder="ì œëª©ì„ ìž…ë ¥í•˜ì„¸ìš”" style="width: 98%;" name="title">
+				</td>
 			</tr>
 			<tr>
-				<th>³»¿ë</th>
+				<th>ë‚´ìš©</th>
 				<td colspan="3">
-					<textarea rows="20" cols="50" placeholder="³»¿ëÀ» ÀÔ·ÂÇÏ¼¼¿ä"></textarea>
+					<textarea rows="20" cols="50" placeholder="ë‚´ìš©ì„ ìž…ë ¥í•˜ì„¸ìš”" name="btext"></textarea>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="4" align="right">
-					<input type="button" value="µî·Ï" onclick="location.href='/'">
-					<input type="button" value="Ãë¼Ò" onclick="location.href='/'">
+					<input type="submit" value="ë“±ë¡">
+					<input type="button" value="ì·¨ì†Œ" onclick="location.href='/'">
 				</td>
 			</tr>
 		</table>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>     
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +13,10 @@
 		border-bottom: 1px solid black;
 	}
 </style>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+
+</script>
 </head>
 <body>
 	<table style="width: 60%; height: 40%; margin: auto; margin-top: 15%;">
@@ -31,6 +37,7 @@
 				<input type="text" placeholder="검색어를 입력하십시오">
 			</td>
 		</tr>
+		
 		<tr>
 			<th>글번호</th>
 			<th width="50%">제목</th>
@@ -38,27 +45,15 @@
 			<th>작성일</th>
 			<th>조회수</th>
 		</tr>
-		<tr>
-			<th>1</th>
-			<th><a href="/board/detail">제목입니다.</a></th>
-			<th>홍길동</th>
-			<th>2021-01-12</th>
-			<th>100</th>
-		</tr>
-		<tr>
-			<th>1</th>
-			<th>제목입니다.</th>
-			<th>홍길동</th>
-			<th>2021-01-12</th>
-			<th>100</th>
-		</tr>
-		<tr>
-			<th>1</th>
-			<th>제목입니다.</th>
-			<th>홍길동</th>
-			<th>2021-01-12</th>
-			<th>100</th>
-		</tr>
+		<c:forEach var="list" items="${list }" begin="0" end="${fn:length(list)}">
+			<tr>
+				<th>${list.bno }</th>
+				<th><a href="/board/detail?bno=${list.bno }">${list.title }</a></th>
+				<th>${list.writer }</th>
+				<th>${list.bdate }</th>
+				<th>${list.hit }</th>
+			</tr>
+		</c:forEach>
 		<tr>
 			<td align="center" colspan="5">
 				<a href="#">1</a>

@@ -11,12 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class PageController 
 {
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String main(Locale locale, Model model) 
-	{
-		
-		return "main";
-	}
+	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Locale locale, Model model) 

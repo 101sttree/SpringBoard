@@ -1,7 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.board.Interface.boardMapper">
+
 	<select id="boardlist" resultType="BoardVO">
 		select * from boardtb
+	</select>
+	
+	<insert id="boardwrite" parameterType="BoardVO">
+		insert into boardtb
+		(
+			uno, 
+			writer, 
+			title, 
+			btext, 
+			bdate
+		) values
+		(
+			#{uno}, 
+			#{writer}, 
+			#{title}, 
+			#{btext}, 
+			now() 
+		)
+		
+	</insert>
+	
+	<select id="boarddetail" resultType="BoardVO" parameterType="int">
+		select * from boardtb
+		where bno = #{bno}
 	</select>
 </mapper>

@@ -1,36 +1,36 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>±Û »ó¼¼ º¸±â</title>
+<title>ê¸€ ìƒì„¸ ë³´ê¸°</title>
 </head>
 <body>
 	<form>
 		<table style="margin: auto; margin-top: 15%;">
 			<tr>
-				<th>ÀÛ¼ºÀÚ</th>
-				<td>È«±æµ¿</td>
-				<th>ÀÛ¼ºÀÏ</th>
-				<td>2020-01-12</td>
+				<th>ìž‘ì„±ìž</th>
+				<td>${vo.writer}</td>
+				<th>ìž‘ì„±ì¼</th>
+				<td>${vo.bdate}</td>
 			</tr>
 			<tr>
-				<th>Á¦¸ñ</th>
+				<th>ì œëª©</th>
 				<td colspan="3">
-					Á¦¸ñÀÔ´Ï´Ù.
+					${vo.title}
 				</td>
 			</tr>
 			<tr>
-				<th>³»¿ë</th>
+				<th>ë‚´ìš©</th>
 				<td colspan="3">
-					<textarea rows="20" cols="50" placeholder="³»¿ëÀ» ÀÔ·ÂÇÏ¼¼¿ä" readonly="readonly">³»¿ëÀÔ´Ï´Ù.</textarea>
+					<textarea rows="20" cols="50" placeholder="ë‚´ìš©ì„ ìž…ë ¥í•˜ì„¸ìš”" readonly="readonly">${vo.btext}</textarea>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="4" align="right">
-					<input type="button" value="¼öÁ¤ÇÏ±â" onclick="location.href='/board/mody'">
-					<input type="button" value="¸ÞÀÎÀ¸·Î" onclick="location.href='/'">
+					<input type="button" value="ìˆ˜ì •í•˜ê¸°" onclick="location.href='/board/mody'">
+					<input type="button" value="ë©”ì¸ìœ¼ë¡œ" onclick="location.href='/'">
 				</td>
 			</tr>
 		</table>
