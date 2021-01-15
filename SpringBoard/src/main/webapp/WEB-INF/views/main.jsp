@@ -33,7 +33,7 @@
 				<td colspan="5" align="right"><input type="button" value="로그아웃" onclick="location.href='/login'"></td>
 			</tr>
 			<tr>
-				<td colspan="5" align="left">${user.name }님 환영합니다.</td>
+				<td colspan="5" align="left">${name}님 환영합니다.</td>
 			</tr>
 		</c:if>
 		

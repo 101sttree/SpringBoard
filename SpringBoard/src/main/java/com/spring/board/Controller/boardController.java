@@ -5,6 +5,8 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.board.Interface.boardMapper;
 import com.spring.board.VO.BoardVO;
+import com.spring.board.VO.UserVO;
 
 @Controller
 public class boardController 
@@ -37,12 +40,20 @@ public class boardController
 	}
 	
 	
-	 @GetMapping(value = "/")
-	 public String boardlist (Model model) 
+	@GetMapping(value = "/")
+	public String boardlist 
+	(
+			 Model model,
+			 HttpServletRequest request,
+			 HttpServletResponse response
+	) 
 	 {
-		 List<BoardVO> list = mapper.boardlist();
-		  
-		 model.addAttribute("list",list);
+		
+		List<BoardVO> list = mapper.boardlist();
+		//HttpSession session = request.getSession();
+		//UserVO userVO = (UserVO)session.getAttribute("user");
+		model.addAttribute("list",list);
+		//model.addAttribute("user",userVO);
 		  
 		 return "main";
 	 }

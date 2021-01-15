@@ -61,12 +61,12 @@ public class userController
 				if(login.getPw().equals(Pw))
 				{
 					jo.add("result", gson.toJsonTree("loginok"));
-					Session.setAttribute("user", Pw);
+					Session.setAttribute("user", login);
+					Session.setAttribute("name", login.getName());
 				}
 				if (!login.getPw().equals(Pw))
 				{
-					System.out.println("로그인 비밀번호       "+Pw);
-					System.out.println("불러온 유저 비밀번호"+login.getPw());
+					
 					jo.add("result", gson.toJsonTree("pwfail"));
 				}
 			}
