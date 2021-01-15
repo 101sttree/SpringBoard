@@ -23,9 +23,20 @@
 		<tr>
 			<th colspan="5"><h1>스프링 게시판</h1></th>
 		</tr>
-		<tr>
-			<td colspan="5" align="right"><input type="button" value="로그인" onclick="location.href='/login'"></td>
-		</tr>
+		<c:if test="${user eq null}">
+			<tr>
+				<td colspan="5" align="right"><input type="button" value="로그인" onclick="location.href='/login'"></td>
+			</tr>
+		</c:if>
+		<c:if test="${user ne null}">
+			<tr>
+				<td colspan="5" align="right"><input type="button" value="로그아웃" onclick="location.href='/login'"></td>
+			</tr>
+			<tr>
+				<td colspan="5" align="left">${user.name }님 환영합니다.</td>
+			</tr>
+		</c:if>
+		
 		<tr>
 			<td colspan="5" align="center">
 				<select>
