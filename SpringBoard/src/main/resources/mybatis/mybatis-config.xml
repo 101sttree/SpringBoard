@@ -6,5 +6,6 @@
 	<typeAliases>
 		<typeAlias alias="UserVO" 	type="com.spring.board.VO.UserVO" />
 		<typeAlias alias="BoardVO" 	type="com.spring.board.VO.BoardVO" />
+		<typeAlias alias="PagingVO" type="com.spring.board.VO.PagingVO" />
 	</typeAliases>
 </configuration>

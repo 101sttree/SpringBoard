@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -13,24 +14,26 @@ public class PageController
 	
 	
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@GetMapping(value = "/login")
 	public String login(Locale locale, Model model) 
 	{
 		
 		return "user/login";
 	}
 	
-	@RequestMapping(value = "/join", method = RequestMethod.GET)
+	@GetMapping(value = "/join")
 	public String join(Locale locale, Model model) 
 	{
 		
 		return "user/join";
 	}
 	
-	@RequestMapping(value = "/write", method = RequestMethod.GET)
+	@GetMapping(value = "/write")
 	public String write(Locale locale, Model model) 
 	{
 		
 		return "board/write";
 	}
+	
+	
 }

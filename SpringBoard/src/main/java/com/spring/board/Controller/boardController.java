@@ -18,57 +18,86 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.board.Interface.boardMapper;
 import com.spring.board.VO.BoardVO;
+import com.spring.board.VO.PagingVO;
 import com.spring.board.VO.UserVO;
 
 @Controller
-public class boardController 
+
+public class boardController
 
 {
 	@Inject
 	boardMapper mapper;
-	
-	@GetMapping(value = "/board/detail")
-	public String detail(Locale locale, Model model, int bno) 
+
+	@GetMapping(value = "/")
+	public String boardlist
+	(
+			Model model,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			PagingVO vo,
+			String nowPage,
+			String cntPerPage
+	) 
 	{
+		int total = mapper.boardcount();
 		
+		if (nowPage == null && cntPerPage == null) 
+		{
+			nowPage = "1";
+			cntPerPage = "5";
+		}
+		if (nowPage == null) 
+		{
+			nowPage = "1";
+		}
+		if (cntPerPage == null) 
+		{ 
+			cntPerPage = "5";
+		}
 		
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		
+		List<BoardVO> list = mapper.boardlist(vo);
+
+		model.addAttribute("paging", vo);
+		model.addAttribute("list", list);
+		
+		return "main";
+	}
+
+	@GetMapping(value = "/board/detail")
+	public String detail(Locale locale, Model model, int bno) {
+
 		BoardVO vo = mapper.boarddetail(bno);
-		
-		model.addAttribute("vo",vo);
-		
+		model.addAttribute("vo", vo);
 		return "board/detail";
 	}
-	
-	
-	@GetMapping(value = "/")
-	public String boardlist 
-	(
-			 Model model,
-			 HttpServletRequest request,
-			 HttpServletResponse response
-	) 
-	 {
-		
-		List<BoardVO> list = mapper.boardlist();
-		//HttpSession session = request.getSession();
-		//UserVO userVO = (UserVO)session.getAttribute("user");
-		model.addAttribute("list",list);
-		//model.addAttribute("user",userVO);
-		  
-		 return "main";
-	 }
-	 
-	@PostMapping(value = "/board/write") 
-	public String boardwrite (Model model, BoardVO vo) 
-	{
+
+	@PostMapping(value = "/board/write")
+	public String boardwrite(Model model, BoardVO vo) {
 		int write = mapper.boardwrite(vo);
 		return "redirect:/";
 	}
-	 
+
 	@GetMapping(value = "/board/delete")
-	public String boarddelete (Model model, int bno)
-	{
+	public String boarddelete(Model model, int bno) {
 		int delete = mapper.boarddelete(bno);
 		return "redirect:/";
+	}
+
+	@GetMapping(value = "/mody")
+	public String mody(Model model, int bno) {
+		BoardVO vo = mapper.boarddetail(bno);
+		model.addAttribute("vo", vo);
+		return "board/mody";
+	}
+
+	@PostMapping(value = "/board/mody")
+	public String boardmody(Model model, BoardVO vo) {
+		int mody = mapper.boardmody(vo);
+		BoardVO boardVO = mapper.boarddetail(vo.getBno());
+		model.addAttribute("vo", boardVO);
+		return "board/detail";
 	}
 }

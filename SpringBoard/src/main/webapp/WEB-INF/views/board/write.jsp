@@ -12,7 +12,7 @@
 		<table style="margin: auto; margin-top: 15%;">
 			<tr>
 				<th>작성자</th>
-				<td><input type="text" name="writer"></td>
+				<td><input type="text" name="writer" value="${name }" readonly="readonly"></td>
 				<th>작성일</th>
 				<td>2020-01-12</td>
 			</tr>

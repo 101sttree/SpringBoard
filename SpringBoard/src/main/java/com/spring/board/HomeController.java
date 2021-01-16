@@ -39,9 +39,9 @@ public class HomeController {
 	public String home312(Locale locale, Model model) 
 	{
 		
-		List<BoardVO> list =  mapper.boardlist();
+		//List<BoardVO> list =  mapper.boardlist();
 		
-		System.out.println(list);
+		//System.out.println(list);
 		
 		return "main";
 		

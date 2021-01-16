@@ -7,8 +7,8 @@
 <title>글 상세 보기</title>
 </head>
 <body>
-	<form>
-		<input type="hidden" name="bno" value="${vo.bno}">
+	<form action="/board/mody" method="post" name="frm">
+		<input type="hidden" name="bno" value="${vo.bno }">
 		<table style="margin: auto; margin-top: 15%;">
 			<tr>
 				<th>작성자</th>
@@ -19,19 +19,19 @@
 			<tr>
 				<th>제목</th>
 				<td colspan="3">
-					${vo.title}
+					<input type="text" placeholder="제목을 입력하세요" style="width: 98%;" name="title" value="${vo.title}">
 				</td>
 			</tr>
 			<tr>
 				<th>내용</th>
 				<td colspan="3">
-					<textarea rows="20" cols="50" placeholder="내용을 입력하세요" readonly="readonly">${vo.btext}</textarea>
+					<textarea rows="20" cols="50" placeholder="내용을 입력하세요" name="btext">${vo.btext}</textarea>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="4" align="right">
-					<input type="button" value="수정하기" onclick="location.href='/mody?bno=${vo.bno}'">
-					<input type="button" value="삭제하기" onclick="location.href='/board/delete?bno=${vo.bno}'">
+					<input type="submit" value="등록하기">
+					<input type="button" value="취소" onclick="location.href='/board/detail?bno=${vo.bno}'">
 					<input type="button" value="메인으로" onclick="location.href='/'">
 				</td>
 			</tr>

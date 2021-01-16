@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.board.Interface.boardMapper">
-
-	<select id="boardlist" resultType="BoardVO">
-		select * from boardtb
+	
+	<select id="boardcount" resultType="int">
+		select count(*) from boardtb
+	</select>
+	
+	<select id="boardlist" resultType="BoardVO" parameterType="PagingVO">
+		select * from boardtb 
+		order by bno desc
+		limit #{start}, 5 
 	</select>
 	
 	<insert id="boardwrite" parameterType="BoardVO">
@@ -34,4 +40,34 @@
 		delete from boardtb
 		where bno = #{bno}
 	</delete>
+	
+	<update id="boardmody" parameterType="BoardVO">
+		update boardtb
+		set  
+		title = #{title}, 
+		btext = #{btext} 
+		where bno = #{bno}
+	</update>
+	
+	
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
