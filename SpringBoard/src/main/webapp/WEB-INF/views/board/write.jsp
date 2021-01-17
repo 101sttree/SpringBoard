@@ -7,12 +7,13 @@
 <title>글 작성</title>
 </head>
 <body>
-	<form action="/board/write" method="post" name="frm">
-		<input type="hidden" value="1" name="uno">
+	<form action="/board/write" method="post" 	name="frm">
+		<input type="hidden" value="1" 			name="uno">
+		<input type="hidden" value="${name }" 	name="writer">
 		<table style="margin: auto; margin-top: 15%;">
 			<tr>
 				<th>작성자</th>
-				<td><input type="text" name="writer" value="${name }" readonly="readonly"></td>
+				<td>${name }</td>
 				<th>작성일</th>
 				<td>2020-01-12</td>
 			</tr>

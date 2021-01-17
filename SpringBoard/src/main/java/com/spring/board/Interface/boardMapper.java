@@ -7,7 +7,7 @@ import com.spring.board.VO.PagingVO;
 
 public interface boardMapper 
 {
-	public List<BoardVO> boardlist(PagingVO bo);
+	public List<BoardVO> boardlist(PagingVO vo);
 	public BoardVO boarddetail(int bno);
 	public int boardwrite(BoardVO vo);
 	public int boardcount();

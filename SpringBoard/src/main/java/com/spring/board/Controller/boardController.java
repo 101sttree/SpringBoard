@@ -1,5 +1,6 @@
 package com.spring.board.Controller;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,7 +29,8 @@ public class boardController
 {
 	@Inject
 	boardMapper mapper;
-
+	
+	//메인화면, 글 불러오기, 페이징 처리
 	@GetMapping(value = "/")
 	public String boardlist
 	(
@@ -59,13 +61,15 @@ public class boardController
 		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 		
 		List<BoardVO> list = mapper.boardlist(vo);
+		System.out.println(list);
 
 		model.addAttribute("paging", vo);
 		model.addAttribute("list", list);
 		
 		return "main";
 	}
-
+	
+	//글 상세 보기
 	@GetMapping(value = "/board/detail")
 	public String detail(Locale locale, Model model, int bno) {
 
@@ -73,26 +77,31 @@ public class boardController
 		model.addAttribute("vo", vo);
 		return "board/detail";
 	}
-
+	
+	//글 작성
 	@PostMapping(value = "/board/write")
 	public String boardwrite(Model model, BoardVO vo) {
+		
 		int write = mapper.boardwrite(vo);
 		return "redirect:/";
 	}
-
+	
+	//글 삭제
 	@GetMapping(value = "/board/delete")
 	public String boarddelete(Model model, int bno) {
 		int delete = mapper.boarddelete(bno);
 		return "redirect:/";
 	}
-
+	
+	//글 수정 화면 이동
 	@GetMapping(value = "/mody")
 	public String mody(Model model, int bno) {
 		BoardVO vo = mapper.boarddetail(bno);
 		model.addAttribute("vo", vo);
 		return "board/mody";
 	}
-
+	
+	//글 수정
 	@PostMapping(value = "/board/mody")
 	public String boardmody(Model model, BoardVO vo) {
 		int mody = mapper.boardmody(vo);

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.google.gson.Gson;
@@ -24,6 +25,7 @@ public class userController
 	@Autowired
 	userMapper mapper;
 	
+	//회원가입
 	@PostMapping(value = "/joinok")
 	public String userjoin(Model model, UserVO vo)
 	{
@@ -33,6 +35,7 @@ public class userController
 		return "redirect:/login";
 	}
 	
+	//로그인
 	@PostMapping(value = "/login")
 	public void userlogin
 	(
@@ -52,10 +55,7 @@ public class userController
 		
 		try 
 		{
-			
-			
 			UserVO login = mapper.userlogin(id);
-			
 			if(login != null)
 			{
 				if(login.getPw().equals(Pw))
@@ -74,7 +74,6 @@ public class userController
 			{
 				jo.add("result", gson.toJsonTree("idfail"));
 			}
-			
 			jo.add("check", gson.toJsonTree("success"));
 		}
 		catch (Exception e) 
@@ -90,6 +89,14 @@ public class userController
 		
 		
 		
+	}
+	
+	@GetMapping(value = "/logout")
+	public String logout(HttpServletRequest request)
+	{
+		HttpSession session = request.getSession();
+		session.invalidate();
+		return "redirect:/";
 	}
 	
 }
