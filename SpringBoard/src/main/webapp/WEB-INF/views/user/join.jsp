@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
+let idcklet = "";
+
 	function join()
 	{
 		
@@ -36,10 +38,49 @@
 			alert("이름을 입력하세요");
 			return;
 		}
+		if(idcklet == "")
+		{
+			alert("아이디 중복확인을 해주십시오.");
+			return;
+		}	
 		
 		$("#joinfrm").submit();
 	}
 	
+
+	function idck()
+	{
+	    $.ajax
+	    ({
+	        url : "/idck",
+	        type  : "post",
+	        data  : { id : $("#id").val() },
+	        dataType : "json",
+	        success: function(data)
+	        {
+	            console.log(data);
+				if($("#id").val() == "")
+				{
+					alert("아이디를 입력하세요");
+					return;
+				}
+				if(data.result == "no")
+				{
+					alert("중복된 아이디 입니다.");
+				}
+				if(data.result == "ok")
+				{
+					alert("사용 가능한 아이디입니다.");
+					idcklet = "ok";
+				}
+	        },
+	        error: function(xhr, status, error)
+	        {
+	            console.log(error);
+	        }
+	    });
+	}
+
 </script>
 </head>
 <body>
@@ -48,7 +89,7 @@
 			<tr>
 				<td>아이디 :</td>
 				<td><input type="text" name="id" id="id"></td>
-				<td><input type="button" value="중복확인"></td>
+				<td><input type="button" value="중복확인" onclick="idck()"></td>
 			</tr>
 			<tr>
 				<td>비밀번호 :</td>
@@ -64,7 +105,7 @@
 			</tr>
 			<tr>
 				<td colspan="3" align="center">
-					<input type="button" value="가입" onclick="javascript:join()">
+					<input type="button" value="가입" onclick="join()">
 					<input type="button" value="취소" onclick="location.href='/'">
 				</td>
 			</tr>

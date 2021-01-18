@@ -18,8 +18,9 @@
 			,#{name}
 		)
 	</insert>
-	<select id="userlogin" parameterType="String" resultType="UserVO">
+	<select id="userinfo" parameterType="String" resultType="UserVO">
 		select * from usertb
 		where id = #{id}
 	</select>
+	
 </mapper>

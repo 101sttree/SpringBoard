@@ -35,9 +35,51 @@ public class userController
 		return "redirect:/login";
 	}
 	
+	//아이디 중복 확인
+	@PostMapping(value = "/idck")
+	public void idck
+	(
+		Model model,
+		HttpServletRequest request,
+		HttpServletResponse response,
+		String id
+	)
+	throws Exception
+	{
+		PrintWriter pw 		= response.getWriter();
+		JsonObject 	jObject = new JsonObject();
+		Gson 		gson 	= new GsonBuilder().setPrettyPrinting().create();
+		HttpSession session = request.getSession();
+		
+		try 
+		{
+			UserVO idck = mapper.userinfo(id);
+			if(idck == null)
+			{
+				jObject.add("result", gson.toJsonTree("ok"));
+			}
+			if(idck != null)
+			{
+				jObject.add("result", gson.toJsonTree("no"));
+			}
+			
+		} 
+		catch (Exception e) 
+		{
+			jObject = new JsonObject();
+			jObject.add("check", gson.toJsonTree("fail"));
+			jObject.add("error", gson.toJsonTree(e.toString()));
+		}
+		finally 
+		{
+			pw.write(gson.toJson(jObject));
+		}
+		
+	}
+	
 	//로그인
 	@PostMapping(value = "/login")
-	public void userlogin
+	public void userinfo
 	(
 			Model model, 
 			HttpServletRequest 	request,
@@ -50,41 +92,41 @@ public class userController
 		
 		PrintWriter pw 		= response.getWriter();
 		Gson 		gson 	= new GsonBuilder().setPrettyPrinting().create();
-		JsonObject 	jo 		= new JsonObject();
+		JsonObject 	jObject 		= new JsonObject();
 		HttpSession Session = request.getSession();
 		
 		try 
 		{
-			UserVO login = mapper.userlogin(id);
+			UserVO login = mapper.userinfo(id);
 			if(login != null)
 			{
 				if(login.getPw().equals(Pw))
 				{
-					jo.add("result", gson.toJsonTree("loginok"));
+					jObject.add("result", gson.toJsonTree("loginok"));
 					Session.setAttribute("user", login);
-					Session.setAttribute("name", login.getName());
+					Session.setAttribute("id", login.getId());
 				}
 				if (!login.getPw().equals(Pw))
 				{
 					
-					jo.add("result", gson.toJsonTree("pwfail"));
+					jObject.add("result", gson.toJsonTree("pwfail"));
 				}
 			}
 			if(login == null) 
 			{
-				jo.add("result", gson.toJsonTree("idfail"));
+				jObject.add("result", gson.toJsonTree("idfail"));
 			}
-			jo.add("check", gson.toJsonTree("success"));
+			jObject.add("check", gson.toJsonTree("success"));
 		}
 		catch (Exception e) 
 		{
-			jo = new JsonObject();
-			jo.add("check", gson.toJsonTree("fail"));
-			jo.add("error", gson.toJsonTree(e.toString()));
+			jObject = new JsonObject();
+			jObject.add("check", gson.toJsonTree("fail"));
+			jObject.add("error", gson.toJsonTree(e.toString()));
 		}
 		finally 
 		{
-			pw.write(gson.toJson(jo));
+			pw.write(gson.toJson(jObject));
 		}
 		
 		

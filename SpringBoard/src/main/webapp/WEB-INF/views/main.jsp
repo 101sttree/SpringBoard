@@ -39,6 +39,10 @@ td, th {
 	        }
 	    });
 	}
+	
+	
+	
+
 
 	
 </script>
@@ -60,17 +64,24 @@ td, th {
 					onclick="location.href='/logout'"></td>
 			</tr>
 			<tr>
-				<td colspan="5" align="left">${name}님환영합니다.</td>
+				<td colspan="5" align="left">${id}님환영합니다.</td>
 			</tr>
 		</c:if>
 
 		<tr>
-			<td colspan="5" align="center"><select>
-					<option>제목</option>
-					<option>작성자</option>
-					<option>내용</option>
-					<option>제목+내용</option>
-			</select> <input type="text" placeholder="검색어를 입력하십시오"></td>
+			<td colspan="5" align="center">
+				<form action="/" method="get">
+					<select name="searchType">
+						<option value="title">제목</option>
+						<option value="writer">작성자</option>
+						<option value="btext">내용</option>
+						<option value="tt">제목+내용</option>
+					</select>
+					<input type="text" placeholder="검색어를 입력하십시오" name="searchText">
+					<input type="submit" value="검색">
+				</form>
+				
+			</td>
 		</tr>
 
 		<tr>

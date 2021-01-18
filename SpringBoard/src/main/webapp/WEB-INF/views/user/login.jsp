@@ -69,14 +69,14 @@ function login()
 		<tr>
 			<td>아이디 :</td>
 			<td><input type="text" name="id" id="id"></td>
-			<td><input type="button" value="로그인" onclick="login()"></td>
+			<td rowspan="2"><input type="button" value="로그인" onclick="login()" style="height: 100%;"></td>
 		</tr>
 		<tr>
 			<td>비밀번호 :</td>
 			<td><input type="password" name="pw" id="pw"></td>
 		</tr>
 		<tr>
-			<td colspan="2" align="center">
+			<td colspan="3" align="center">
 				<a href="/join">회원가입</a>
 				<a href="/">메인으로</a>
 			</td>

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.spring.board.Interface.boardMapper;
 import com.spring.board.VO.BoardVO;
 import com.spring.board.VO.PagingVO;
+import com.spring.board.VO.SearchVO;
 import com.spring.board.VO.UserVO;
 
 @Controller
@@ -34,15 +35,21 @@ public class boardController
 	@GetMapping(value = "/")
 	public String boardlist
 	(
-			Model model,
-			HttpServletRequest request,
-			HttpServletResponse response,
-			PagingVO vo,
-			String nowPage,
-			String cntPerPage
+		Model model,
+		HttpServletRequest request,
+		HttpServletResponse response,
+		PagingVO pagingVO,
+		SearchVO searchVO,
+		String nowPage,
+		String cntPerPage,
+		String searchType,
+		String searchText
 	) 
 	{
-		int total = mapper.boardcount();
+		
+		searchVO.setSearchType(searchType);
+		searchVO.setSearchText(searchText); 
+		int total = mapper.boardcount(searchVO);
 		
 		if (nowPage == null && cntPerPage == null) 
 		{
@@ -58,12 +65,15 @@ public class boardController
 			cntPerPage = "5";
 		}
 		
-		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		pagingVO = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 		
-		List<BoardVO> list = mapper.boardlist(vo);
-		System.out.println(list);
-
-		model.addAttribute("paging", vo);
+		searchVO.setStart(pagingVO.getStart());
+		searchVO.setEnd(5);
+		
+		
+		List<BoardVO> list = mapper.boardlist(searchVO);
+		
+		model.addAttribute("paging", pagingVO);
 		model.addAttribute("list", list);
 		
 		return "main";
@@ -82,6 +92,9 @@ public class boardController
 	@PostMapping(value = "/board/write")
 	public String boardwrite(Model model, BoardVO vo) {
 		
+//		for (int i = 0; i < 50; i++) {
+//			int write = mapper.boardwrite(vo);
+//		}
 		int write = mapper.boardwrite(vo);
 		return "redirect:/";
 	}

@@ -4,8 +4,10 @@
 
 <configuration> 
 	<typeAliases>
-		<typeAlias alias="UserVO" 	type="com.spring.board.VO.UserVO" />
-		<typeAlias alias="BoardVO" 	type="com.spring.board.VO.BoardVO" />
-		<typeAlias alias="PagingVO" type="com.spring.board.VO.PagingVO" />
+		<typeAlias alias="UserVO" 	 type="com.spring.board.VO.UserVO" />
+		<typeAlias alias="BoardVO" 	 type="com.spring.board.VO.BoardVO" />
+		<typeAlias alias="PagingVO"  type="com.spring.board.VO.PagingVO" />
+		<typeAlias alias="SearchVO"  type="com.spring.board.VO.SearchVO" />
+		<typeAlias alias="CommentVO" type="com.spring.board.VO.CommentVO"/>
 	</typeAliases>
 </configuration>
