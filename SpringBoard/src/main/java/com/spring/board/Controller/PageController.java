@@ -41,8 +41,8 @@ public class PageController
 	}
 	
 	//글 쓰기 로그인 체크
-	@GetMapping(value = "/write")
-	public void write
+	@GetMapping(value = "/loginck")
+	public void loginck
 	(
 		HttpServletRequest request,
 		HttpServletResponse response

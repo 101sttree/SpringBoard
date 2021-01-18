@@ -14,11 +14,11 @@ td, th {
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-	function writeCheck()
+	function loginck()
 	{
 		$.ajax
 	    ({
-	        url		 : "/write",
+	        url		 : "/loginck",
 	        dataType : "json",
 	        success: function(data)
 	        {
@@ -121,7 +121,7 @@ td, th {
 		</tr>
 		<tr>
 			<td align="right" colspan="5"><input type="button" value="글쓰기"
-				onclick="writeCheck()"></td>
+				onclick="loginck()"></td>
 		</tr>
 	</table>
 </body>
