@@ -14,11 +14,11 @@ td, th {
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-	function loginck()
+	function loginCheck()
 	{
 		$.ajax
 	    ({
-	        url		 : "/loginck",
+	        url		 : "/loginCheck",
 	        dataType : "json",
 	        success: function(data)
 	        {
@@ -103,25 +103,35 @@ td, th {
 		<tr>
 			<td align="center" colspan="5">
 				<c:if test="${paging.startPage != 1}">
+				<!-- 5개의 페이지 번호의 시작 번호가 1이 아니면 -->
 					<a href="/?nowPage=${paging.startPage - 1}&cntPerPage=${paging.cntPerPage}">&lt;</a>
+					<!-- < 문자에  nowpage의 값에 시작번호에서 -1을 한 값과 페이지당 출력갯수5(고정)을 링크로 설정해준다-->
 				</c:if> 
 				<c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="p">
+				<!-- < 다음의 숫자들이다. 반복문의 시작 값은  startPage이고 종료 값은 endPage 이다.-->		
 					<c:choose>
 						<c:when test="${p == paging.nowPage}">
+						<!-- 현재 페이지가 nowPage 즉 객체의 nowPage값과 같다면 링크를 주지 않는다. -->
 							<b>${p}</b>
 						</c:when>
 						<c:when test="${p != paging.nowPage}">
+						<!-- 현재 페이지가 아닌 숫자에는 링크를 준다. -->
 							<a href="/?nowPage=${p}&cntPerPage=${paging.cntPerPage}">${p}</a>
+							<!-- 해당숫자와 출력 게시글 갯수를 가진 링크를 준다. -->
 						</c:when>
 					</c:choose>
 				</c:forEach> 
 				<c:if test="${paging.endPage != paging.lastPage}">
+				<!-- 
+					현재 페이지에 표시된 5개의 숫자중 마지막 숫자가 전체 페이지의 끝과 같지 않을때
+					다음 5개를 보여주는 창으로 이동하는 링크가 달린 > 문자를 생성한다.
+				 -->
 					<a href="/?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
 				</c:if></td>
 		</tr>
 		<tr>
 			<td align="right" colspan="5"><input type="button" value="글쓰기"
-				onclick="loginck()"></td>
+				onclick="loginCheck()"></td>
 		</tr>
 	</table>
 </body>

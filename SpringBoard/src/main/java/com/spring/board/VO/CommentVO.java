@@ -14,6 +14,7 @@ public class CommentVO
 	private int cno;
 	private int	bno;
 	private int uno;
+	private int start;
 	private String cwriter;
 	private String ctext;
 	private Date cdate;

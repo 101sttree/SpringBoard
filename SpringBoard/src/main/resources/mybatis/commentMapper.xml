@@ -4,9 +4,33 @@
 
 <mapper namespace="com.spring.board.Interface.commentMapper">
 	
-	<select id="commentlist" parameterType="int" resultType="CommentVO">
+	<select id="commentlist" parameterType="CommentVO" resultType="CommentVO">
 		select * from commenttb
 		where bno = #{bno}
+		order by cno desc 
+		limit #{start}, 5
 	</select>
-
+	<select id="commentcount" resultType="int" parameterType="CommentVO">
+		select count(*) from commenttb 
+		where bno = #{bno}
+	</select>
+	
+	<insert id="commentwrite" parameterType="CommentVO">
+		insert into commenttb
+		(
+			bno, 
+			uno, 
+			cwriter, 
+			ctext,
+			cdate
+		) values
+		(
+			#{bno}, 
+			#{uno}, 
+			#{cwriter}, 
+			#{ctext}, 
+			now()
+		)
+	</insert>
+	
 </mapper>
