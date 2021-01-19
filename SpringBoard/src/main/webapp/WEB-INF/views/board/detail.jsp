@@ -50,7 +50,6 @@
 	
 	
 	//댓글 불러오기
-	
 	function commentlist()
 	{
 	    $.ajax
@@ -132,7 +131,7 @@
 		commentpaginglist();
 	}
 	
-	
+	//댓글 페이징 (<, > 미구현)
 	function commentpaginglist()
 	{
 	    $.ajax

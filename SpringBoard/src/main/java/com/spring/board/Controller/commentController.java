@@ -92,6 +92,8 @@ public class commentController
 			pWriter.write(gson.toJson(jObject));
 		}
 	}
+	
+	//¥Ò±€ ¿€º∫
 	@PostMapping(value = "/commentwrite")
 	public void commentwrite
 	(
