@@ -1,13 +1,10 @@
 package com.spring.board.Controller;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
-import javax.activation.CommandMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,7 +39,11 @@ public class boardController
 	@Autowired
 	fileMapper fmapper;
 	
-	private static final String UPLOAD_PATH = "C:\\Users\\cube\\Documents\\GitHub\\SpringBoard\\SpringBoard\\src\\main\\webapp\\resources\\file";
+	/*
+	 * private static final String UPLOAD_PATH =
+	 * "C:\\Users\\cube\\Documents\\GitHub\\SpringBoard\\SpringBoard\\src\\main\\webapp\\resources\\file";
+	 */
+	private static final String UPLOAD_PATH = "C:\\Users\\hyosin\\Documents\\GitHub\\SpringBoard\\SpringBoard\\src\\main\\webapp\\resources\\file";
 	
 	//메인화면, 글 불러오기, 페이징 처리
 	@GetMapping(value = "/")
@@ -100,6 +103,35 @@ public class boardController
 	}
 	
 	
+
+	@RequestMapping("/common/download")
+	public ModelAndView download
+	(
+			@RequestParam HashMap<Object, Object> params,
+			ModelAndView mv
+	)
+	{
+		String fileName = (String) params.get("fileName");
+		String fullPath = UPLOAD_PATH + "/" + fileName;
+		File file = new File(fullPath);
+		//해당 경로에 있는 파일의 정보를 담는다 = new File(경로)
+		
+		mv.setViewName("downloadView");
+		//해당 뷰로 모델에 정보를 담아 보낸다.
+		mv.addObject("downloadFile", file);
+		//뷰로 보낼 정보를 객체에 담는다.
+		return mv;
+	}
+	
+	@RequestMapping("/board/board.do")
+	public ModelAndView board
+	(
+			@RequestParam HashMap<Object, Object> params,
+			ModelAndView mv
+	) {
+		mv.setViewName("board/board");
+		return mv;
+	}
 	
 	//글 작성
 	@PostMapping(value = "/board/write")
@@ -133,17 +165,15 @@ public class boardController
 		{
 			mf.transferTo(new File(safeFile));
 			int fileinsert = fmapper.fileinsert(fileVO);
-			FileOutputStream fos = new FileOutputStream(UPLOAD_PATH + mf.getOriginalFilename());
-			InputStream 	 is  = mf.getInputStream();
-			int readCount = 0;
-            byte[] buffer = new byte[1024000];
-            while ((readCount = is.read(buffer)) != -1) 
-            {
-                //  파일에서 가져온 fileInputStream을 설정한 크기 (1024byte) 만큼 읽고
-                
-                fos.write(buffer, 0, readCount);
-                // 위에서 생성한 fileOutputStream 객체에 출력하기를 반복한다
-            }
+			/*
+			 * FileOutputStream fos = new FileOutputStream(UPLOAD_PATH +
+			 * mf.getOriginalFilename()); InputStream is = mf.getInputStream(); int
+			 * readCount = 0; byte[] buffer = new byte[1024000]; while ((readCount =
+			 * is.read(buffer)) != -1) { // 파일에서 가져온 fileInputStream을 설정한 크기 (1024byte) 만큼
+			 * 읽고
+			 * 
+			 * fos.write(buffer, 0, readCount); // 위에서 생성한 fileOutputStream 객체에 출력하기를 반복한다 }
+			 */
 			
 		} catch (IllegalStateException e) 
 		{
