@@ -7,10 +7,11 @@
 <title>글 작성</title>
 </head>
 <body>
-	<form action="/board/write" method="post" 		name="frm">
-		<input type="hidden" value="${user.uno }" 	name="uno">
-		<input type="hidden" value="${id }" 		name="writer">
-		<table style="margin: auto; margin-top: 15%;">
+	<form 		action="/board/write" method="post" name="frm"
+				enctype="multipart/form-data">
+		<input 	type="hidden" value="${user.uno }" 	name="uno">
+		<input 	type="hidden" value="${id }" 		name="writer">
+		<table 	style="margin: auto; margin-top: 15%;">
 			<tr>
 				<th>작성자</th>
 				<td>${id }</td>
@@ -27,6 +28,12 @@
 				<th>내용</th>
 				<td colspan="3">
 					<textarea rows="20" cols="50" placeholder="내용을 입력하세요" name="btext"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<th>첨부파일</th>
+				<td colspan="3">
+					<input type="file" name="file">
 				</td>
 			</tr>
 			<tr>

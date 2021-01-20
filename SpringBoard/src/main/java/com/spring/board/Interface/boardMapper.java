@@ -14,4 +14,5 @@ public interface boardMapper
 	public int boardcount(SearchVO vo);
 	public int boardmody(BoardVO vo);
 	public int boarddelete(int bno);
+	public BoardVO boardlast();
 }

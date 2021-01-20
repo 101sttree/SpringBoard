@@ -47,6 +47,11 @@
 		order by bno desc
 		limit #{start}, 5 
 	</select>
+	<select id="boardlast" resultType="BoardVO">
+		select * from boardtb
+		order by bno desc
+		limit 1
+	</select>
 	
 	<insert id="boardwrite" parameterType="BoardVO">
 		insert into boardtb

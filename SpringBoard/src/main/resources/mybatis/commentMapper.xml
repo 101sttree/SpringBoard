@@ -32,5 +32,9 @@
 			now()
 		)
 	</insert>
+	<delete id="commentdelete" parameterType="int">
+		delete from commenttb
+		where bno = #{bno}
+	</delete>
 	
 </mapper>

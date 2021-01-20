@@ -15,8 +15,9 @@
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-	
-	var nowPage = 1;	
+
+	let uno = 0;
+	let nowPage = 1;	
 	//화면 로딩시 댓글 목록 불러오기
 	$(document).ready(function()
 	{
@@ -64,6 +65,13 @@
 			datetype : "json",
 	        success: function(data)
 	        {
+				
+				user = data.user	
+				if(user != null)
+				{
+					uno = user.uno
+				}
+				
 				if(data.check == "yes")
 				{
 					$("#nocoment").html("");
@@ -87,10 +95,20 @@
 							str += item.cdate;
 							str += '</td>';
 							str += '</tr>';
-						
+							str += '<tr>';
+							if(uno == item.uno)
+							{
+								str += '<td></td>';
+								str += '<td align="right" colspan="3" style="border-bottom: 1px solid black;">';
+								str += '<input type="button" value="수정"><input type="button" value="삭제">';
+								str += '</td>';
+								str += '</tr>';
+							}
+																											
 						$("#comment").append(str);	
 					});
 				}
+				
 	        },
 	        error: function(xhr, status, error)
 	        {
@@ -131,7 +149,8 @@
 		commentpaginglist();
 	}
 	
-	//댓글 페이징 (<, > 미구현)
+	
+	
 	function commentpaginglist()
 	{
 	    $.ajax
@@ -147,18 +166,33 @@
 	        success: function(data)
 	        {
 				console.log(data);
-				let paging = data.paging;
-				for(var i = paging.startPage ; i <= paging.endPage ; i++)
+				paging 		= data.paging;
+				startPage 	= paging.startPage;
+				endPage 	= paging.endPage;
+				
+				if(startPage != 1)
+				{            
+			       $("#commentpaginglist").append("<a href='#' id='backPage'><</a>"); 
+			    }
+				
+
+				for(var i = startPage ; i <= endPage ; i++)
 				{
-				 	if(paging.nowPage == i)
+				 	if(nowPage == i)
 					{
 						$("#commentpaginglist").append("<a>"+i+"</a>"); 
 					}
-					if(paging.nowPage != i)
+					if(nowPage != i)
 					{
 						$("#commentpaginglist").append("<a href='#' id='goPage' page='"+i+"'>"+i+"</a>"); 
 					}
 				}
+				
+				if(endPage != paging.lastPage)
+				{            
+			        $("#commentpaginglist").append("<a href='#' id='nextPage'>></a>"); 
+			    }
+				 
 				
 	        },
 	        error: function(xhr, status, error)
@@ -177,15 +211,22 @@
 				commentpaginglist();
 			});
 	
-	
-
-
-
-
-
-
-
-	
+	$(document).on("click","#backPage",function()
+			{
+				nowPage = startPage - 1;
+				$("#comment").html("");
+				$("#commentpaginglist").html("");
+				commentlist();
+				commentpaginglist();
+			});
+	$(document).on("click","#nextPage",function()
+			{
+				nowPage = endPage + 1;
+				$("#comment").html("");
+				$("#commentpaginglist").html("");
+				commentlist();
+				commentpaginglist();
+			});
 	
 </script>
 </head>

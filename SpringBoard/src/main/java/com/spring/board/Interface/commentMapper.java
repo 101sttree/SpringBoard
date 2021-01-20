@@ -9,4 +9,5 @@ public interface commentMapper
 	public List<CommentVO> commentlist(CommentVO commentVO);
 	public int commentwrite(CommentVO commentVO);
 	public int commentcount(CommentVO commentVO);
+	public int commentdelete(int bno);
 }

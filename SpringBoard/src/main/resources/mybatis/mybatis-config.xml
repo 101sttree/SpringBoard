@@ -9,5 +9,6 @@
 		<typeAlias alias="PagingVO"  type="com.spring.board.VO.PagingVO" />
 		<typeAlias alias="SearchVO"  type="com.spring.board.VO.SearchVO" />
 		<typeAlias alias="CommentVO" type="com.spring.board.VO.CommentVO"/>
+		<typeAlias alias="FileVO" 	 type="com.spring.board.VO.FileVO"/>
 	</typeAliases>
 </configuration>

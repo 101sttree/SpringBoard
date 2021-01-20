@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import com.google.gson.JsonObject;
 import com.spring.board.Interface.commentMapper;
 import com.spring.board.VO.CommentVO;
 import com.spring.board.VO.PagingVO;
+import com.spring.board.VO.UserVO;
 
 @Controller
 public class commentController 
@@ -44,12 +46,12 @@ public class commentController
 		PrintWriter pWriter = response.getWriter();
 		JsonObject 	jObject = new JsonObject();
 		Gson 		gson 	= new GsonBuilder().setPrettyPrinting().create();
-		
+		HttpSession session = request.getSession();
 		
 		try 
 		{
+			System.out.println(nowPage);
 			int total = mapper.commentcount(commentVO);
-			
 			if (nowPage == null && cntPerPage == null) 
 			{
 				nowPage = "1";
@@ -68,11 +70,12 @@ public class commentController
 			commentVO.setStart(pagingVO.getStart());
 			//댓글 목록을 불러오는데 사용될 start 값을 페이징객체에서 얻어온다.
 			List<CommentVO> list = mapper.commentlist(commentVO);
-			
+			UserVO userVO = (UserVO)session.getAttribute("user");
 			if(list.size() > 0)
 			{
 				jObject.add("list", 	gson.toJsonTree(list));
 				jObject.add("paging", 	gson.toJsonTree(pagingVO));
+				jObject.add("user", 	gson.toJsonTree(userVO));
 				jObject.add("check", 	gson.toJsonTree("yes"));
 			}
 			if(list.size() == 0)
@@ -103,6 +106,10 @@ public class commentController
 		HttpServletResponse response	
 	)
 	{
+		/*
+		 * for (int i = 0; i < 50; i++) { int commentwrite =
+		 * mapper.commentwrite(commentVO); }
+		 */
 		int commentwrite = mapper.commentwrite(commentVO);
 	}
 	
