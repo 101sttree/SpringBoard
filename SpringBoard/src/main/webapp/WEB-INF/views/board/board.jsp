@@ -13,7 +13,7 @@
   	<div class="content">
 		<br/><br/>
 		<h3>파일 다운로드</h3>
-		<a href="/common/download.do?fileName=dd.txt">download</a>
+		<a href="/common/download?fileName=dd.txt">download</a>
 	</div>
   </body>
   
