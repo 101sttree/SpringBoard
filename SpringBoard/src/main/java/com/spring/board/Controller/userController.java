@@ -29,9 +29,7 @@ public class userController
 	@PostMapping(value = "/joinok")
 	public String userjoin(Model model, UserVO vo)
 	{
-		
 		int join = mapper.userjoin(vo);
-		
 		return "redirect:/login";
 	}
 	
@@ -81,11 +79,11 @@ public class userController
 	@PostMapping(value = "/login")
 	public void userinfo
 	(
-			Model model, 
-			HttpServletRequest 	request,
-			HttpServletResponse response,
-			String id,
-			String Pw
+		Model model, 
+		HttpServletRequest 	request,
+		HttpServletResponse response,
+		String id,
+		String Pw
 			
 	) throws Exception
 	{

@@ -116,9 +116,9 @@ public class commentController
 	@PostMapping(value = "/commentmody")
 	public void commentmody
 	(
-			CommentVO commentVO,
-			HttpServletRequest request,
-			HttpServletResponse response
+		CommentVO commentVO,
+		HttpServletRequest request,
+		HttpServletResponse response
 	)
 	throws Exception
 	{
@@ -165,9 +165,9 @@ public class commentController
 	@PostMapping(value = "/commentdelete")
 	public void commentdeleteone
 	(
-			int cno,
-			HttpServletRequest request,
-			HttpServletResponse response
+		int cno,
+		HttpServletRequest request,
+		HttpServletResponse response
 	)
 	throws Exception
 	{

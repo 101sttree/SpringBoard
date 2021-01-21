@@ -100,11 +100,11 @@ public class boardController
 	@GetMapping(value = "/board/detail")
 	public ModelAndView detail
 	(
-			Locale locale,
-			Model model,
-			int bno,
-			@RequestParam HashMap<Object, Object> params,
-			ModelAndView mv
+		Locale locale,
+		Model model,
+		int bno,
+		@RequestParam HashMap<Object, Object> params,
+		ModelAndView mv
 	) {
 
 		BoardVO vo = mapper.boarddetail(bno);
@@ -121,8 +121,8 @@ public class boardController
 	@RequestMapping("/common/download")
 	public ModelAndView download
 	(
-			@RequestParam HashMap<Object, Object> params,
-			ModelAndView mv
+		@RequestParam HashMap<Object, Object> params,
+		ModelAndView mv
 	)
 	{
 		String fileName = (String) params.get("fileName");
@@ -140,9 +140,10 @@ public class boardController
 	@RequestMapping("/board/board.do")
 	public ModelAndView board
 	(
-			@RequestParam HashMap<Object, Object> params,
-			ModelAndView mv
-	) {
+		@RequestParam HashMap<Object, Object> params,
+		ModelAndView mv
+	) 
+	{
 		mv.setViewName("board/board");
 		return mv;
 	}
@@ -151,14 +152,12 @@ public class boardController
 	@PostMapping(value = "/board/write")
 	public String boardwrite
 	(
-			Model model,
-			BoardVO vo,
-			MultipartHttpServletRequest mtfRequest
-			//화면에서 받아온 파일을 가지고 있는 객체이다.
+		Model model,
+		BoardVO vo,
+		MultipartHttpServletRequest mtfRequest
+		//화면에서 받아온 파일을 가지고 있는 객체이다.
 	) 
 	{
-		
-		
 		try 
 		{
 			int 	write 	  = mapper.boardwrite(vo);
