@@ -61,19 +61,28 @@ function login()
 		
 	});
 }
+
+function pressEnter(){
+    if(event.keyCode == 13){
+    	login();
+    }
+}
+
 </script>
 </head>
 <body>
+
+
 <form id="loginfrm" name="loginfrm">
 	<table style="height: 40%; margin: auto; margin-top: 20%;">
 		<tr>
 			<td>아이디 :</td>
 			<td><input type="text" name="id" id="id"></td>
-			<td rowspan="2"><input type="button" value="로그인" onclick="login()" style="height: 100%;"></td>
+			<td rowspan="2"><input type="button" value="로그인" onclick="login()"  style="height: 100%;"></td>
 		</tr>
 		<tr>
 			<td>비밀번호 :</td>
-			<td><input type="password" name="pw" id="pw"></td>
+			<td><input type="password" name="pw" id="pw" onkeydown="pressEnter()"></td>
 		</tr>
 		<tr>
 			<td colspan="3" align="center">

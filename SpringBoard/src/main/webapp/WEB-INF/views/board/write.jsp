@@ -5,9 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>글 작성</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="/resources/JS/write.js"></script>
 </head>
 <body>
-	<form 		action="/board/write" method="post" name="frm"
+	<form 		action="/board/write" method="post" name="writefrm" id="writefrm"
 				enctype="multipart/form-data">
 		<input 	type="hidden" value="${user.uno }" 	name="uno">
 		<input 	type="hidden" value="${id }" 		name="writer">
@@ -21,13 +23,13 @@
 			<tr>
 				<th>제목</th>
 				<td colspan="3">
-					<input type="text" placeholder="제목을 입력하세요" style="width: 98%;" name="title">
+					<input type="text" placeholder="제목을 입력하세요" style="width: 98%;" name="title" id="title">
 				</td>
 			</tr>
 			<tr>
 				<th>내용</th>
 				<td colspan="3">
-					<textarea rows="20" cols="50" placeholder="내용을 입력하세요" name="btext"></textarea>
+					<textarea rows="20" cols="50" placeholder="내용을 입력하세요" name="btext" id="btext"></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -38,7 +40,7 @@
 			</tr>
 			<tr>
 				<td colspan="4" align="right">
-					<input type="submit" value="등록">
+					<input type="button" value="등록" onclick="writerok()">
 					<input type="button" value="취소" onclick="location.href='/'">
 				</td>
 			</tr>

@@ -10,9 +10,15 @@
 		order by cno desc 
 		limit #{start}, 5
 	</select>
+	
 	<select id="commentcount" resultType="int" parameterType="CommentVO">
 		select count(*) from commenttb 
 		where bno = #{bno}
+	</select>
+	
+	<select id="commentinfo" parameterType="int" resultType="CommentVO">
+		select * from commenttb
+		where cno = #{cno}
 	</select>
 	
 	<insert id="commentwrite" parameterType="CommentVO">
@@ -32,9 +38,21 @@
 			now()
 		)
 	</insert>
+	
 	<delete id="commentdelete" parameterType="int">
 		delete from commenttb
 		where bno = #{bno}
 	</delete>
+	
+	<delete id="commentdeleteone" parameterType="int">
+		delete from commenttb
+		where cno = #{cno}
+	</delete>
+	
+	<update id="commentmody" parameterType="CommentVO">
+		update commenttb 
+		set ctext = #{ctext} 
+		where cno = #{cno}
+	</update>
 	
 </mapper>

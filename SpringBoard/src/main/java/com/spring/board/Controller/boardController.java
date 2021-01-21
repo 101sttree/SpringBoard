@@ -39,11 +39,14 @@ public class boardController
 	@Autowired
 	fileMapper fmapper;
 	
+	
+	  private static final String UPLOAD_PATH =
+	  "C:\\Users\\cube\\Documents\\GitHub\\SpringBoard\\SpringBoard\\src\\main\\webapp\\resources\\file";
+	 
 	/*
 	 * private static final String UPLOAD_PATH =
-	 * "C:\\Users\\cube\\Documents\\GitHub\\SpringBoard\\SpringBoard\\src\\main\\webapp\\resources\\file";
+	 * "C:\\Users\\hyosin\\Documents\\GitHub\\SpringBoard\\SpringBoard\\src\\main\\webapp\\resources\\file";
 	 */
-	private static final String UPLOAD_PATH = "C:\\Users\\hyosin\\Documents\\GitHub\\SpringBoard\\SpringBoard\\src\\main\\webapp\\resources\\file";
 	
 	//메인화면, 글 불러오기, 페이징 처리
 	@GetMapping(value = "/")
@@ -95,11 +98,22 @@ public class boardController
 	
 	//글 상세 보기
 	@GetMapping(value = "/board/detail")
-	public String detail(Locale locale, Model model, int bno) {
+	public ModelAndView detail
+	(
+			Locale locale,
+			Model model,
+			int bno,
+			@RequestParam HashMap<Object, Object> params,
+			ModelAndView mv
+	) {
 
 		BoardVO vo = mapper.boarddetail(bno);
-		model.addAttribute("vo", vo);
-		return "board/detail";
+		FileVO fileVO = fmapper.fileselect(bno);
+		//model.addAttribute("vo", vo);
+		mv.setViewName("board/detail");
+		mv.addObject("vo", vo);
+		mv.addObject("fvo", fileVO);
+		return mv;
 	}
 	
 	
@@ -143,37 +157,34 @@ public class boardController
 			//화면에서 받아온 파일을 가지고 있는 객체이다.
 	) 
 	{
-		int 	write 	  = mapper.boardwrite(vo);
-		BoardVO boardlast = mapper.boardlast();
-		
-		MultipartFile mf = mtfRequest.getFile("file");
-		String 	originFileName 	= mf.getOriginalFilename();
-		long 	fileSize 		= mf.getSize();
-		String 	safeFile = UPLOAD_PATH + "\\" + originFileName;
-		FileVO 	fileVO = new FileVO();
-		fileVO.	setBno(boardlast.getBno());
-		fileVO.	setUno(vo.getUno());
-		fileVO.	setFsize(mf.getSize());
-		fileVO.	setFname(mf.getOriginalFilename());
-		fileVO.	setPath(UPLOAD_PATH);
-		int 	index 	= originFileName.lastIndexOf('.');
-		String 	hwak 	= originFileName.substring(index);
-		fileVO.	setEx(hwak);
 		
 		
 		try 
 		{
-			mf.transferTo(new File(safeFile));
-			int fileinsert = fmapper.fileinsert(fileVO);
-			/*
-			 * FileOutputStream fos = new FileOutputStream(UPLOAD_PATH +
-			 * mf.getOriginalFilename()); InputStream is = mf.getInputStream(); int
-			 * readCount = 0; byte[] buffer = new byte[1024000]; while ((readCount =
-			 * is.read(buffer)) != -1) { // 파일에서 가져온 fileInputStream을 설정한 크기 (1024byte) 만큼
-			 * 읽고
-			 * 
-			 * fos.write(buffer, 0, readCount); // 위에서 생성한 fileOutputStream 객체에 출력하기를 반복한다 }
-			 */
+			int 	write 	  = mapper.boardwrite(vo);
+			BoardVO boardlast = mapper.boardlast();
+			MultipartFile mf = mtfRequest.getFile("file");
+			
+			if(mf != null)
+			{
+				//파일 정보 추출 및 입력
+				String 	originFileName 	= mf.getOriginalFilename();
+				long 	fileSize 		= mf.getSize();
+				String 	safeFile = UPLOAD_PATH + "\\" + originFileName;
+				FileVO 	fileVO = new FileVO();
+				fileVO.	setBno(boardlast.getBno());
+				fileVO.	setUno(vo.getUno());
+				fileVO.	setFsize(mf.getSize());
+				fileVO.	setFname(mf.getOriginalFilename());
+				fileVO.	setPath(UPLOAD_PATH);
+				int 	index 	= originFileName.lastIndexOf('.');
+				String 	hwak 	= originFileName.substring(index);
+				fileVO.	setEx(hwak);
+				
+				mf.transferTo(new File(safeFile));
+				int fileinsert = fmapper.fileinsert(fileVO);
+			}
+			
 			
 		} catch (IllegalStateException e) 
 		{
@@ -194,8 +205,9 @@ public class boardController
 	@GetMapping(value = "/board/delete")
 	public String boarddelete(Model model, int bno) {
 		
+		int fdelet 	= fmapper.filedelete(bno);
 		int cdelete = cmapper.commentdelete(bno);
-		int delete = mapper.boarddelete(bno);
+		int delete 	= mapper.boarddelete(bno);
 		return "redirect:/";
 	}
 	

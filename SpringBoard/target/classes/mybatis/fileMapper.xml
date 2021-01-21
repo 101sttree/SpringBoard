@@ -20,4 +20,12 @@
 			#{fsize}
 		)
 	</insert>
+	<select id="fileselect" parameterType="int" resultType="FileVO">
+		select * from filetb
+		where bno = #{bno}
+	</select>
+	<delete id="filedelete" parameterType="int">
+		delete from filetb
+		where bno = #{bno}
+	</delete>
 </mapper>

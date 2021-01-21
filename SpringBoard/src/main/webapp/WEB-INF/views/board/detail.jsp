@@ -12,230 +12,39 @@
 	{
 		padding: 3px;
 	}
+	.ctext
+	{
+		height: 110px;
+	}
+	.cta
+	{
+		border: none;
+	}
+	textarea
+	{
+		resize: none;
+		width: 100%;
+	}
+	th
+	{
+		width: 100px;
+	}
+	div
+	{
+		text-align: center;
+	}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript">
-
-	let uno = 0;
-	let nowPage = 1;	
-	//화면 로딩시 댓글 목록 불러오기
-	$(document).ready(function()
-	{
-		commentlist();
-		commentpaginglist();
-	});
-	
-	//댓글 쓰기 로그인 여부 체크
-	function loginCheck()
-	{
-		$.ajax
-	    ({
-	        url		 : "/loginCheck",
-	        dataType : "json",
-	        success: function(data)
-	        {
-	            console.log(data);
-				
-				if(data.check == "loginno")
-				{
-					alert("로그인이 필요한 서비스 입니다.");
-					location.href = "/login"
-				}
-	        },
-	        error: function(xhr, status, error) 
-	        {
-	            console.log(error);
-	        }
-	    });
-	}
-	
-	
-	//댓글 불러오기
-	function commentlist()
-	{
-	    $.ajax
-	    ({
-	        url   : "/commentlist",
-	        type  : "get",
-	        data  : 
-					{
-						bno : $("#bno").val(),
-						nowPage : nowPage
-					},
-			datetype : "json",
-	        success: function(data)
-	        {
-				
-				user = data.user	
-				if(user != null)
-				{
-					uno = user.uno
-				}
-				
-				if(data.check == "yes")
-				{
-					$("#nocoment").html("");
-
-					$.each(data.list, function(index, item)
-					{
-						let str =	"";
-							str += '<tr>';
-							str += '<td></td>';
-							str += '<td align="left" colspan="3" style="border-top: 1px solid black;">'+item.cwriter+'</td>';
-							str += '</tr>';
-							str += '<tr>';
-							str += '<td></td>';
-							str += '<td align="left" colspan="3">';
-							str += item.ctext;
-							str += '</td>';
-							str += '</tr>';
-							str += '<tr>';
-							str += '<td></td>';
-							str += '<td align="right" colspan="3" style="border-bottom: 1px solid black;">';
-							str += item.cdate;
-							str += '</td>';
-							str += '</tr>';
-							str += '<tr>';
-							if(uno == item.uno)
-							{
-								str += '<td></td>';
-								str += '<td align="right" colspan="3" style="border-bottom: 1px solid black;">';
-								str += '<input type="button" value="수정"><input type="button" value="삭제">';
-								str += '</td>';
-								str += '</tr>';
-							}
-																											
-						$("#comment").append(str);	
-					});
-				}
-				
-	        },
-	        error: function(xhr, status, error)
-	        {
-	            console.log(error);
-	        }
-	    });
-	}
-
-	
-	//댓글 작성 및 불러오기
-	function commentwrite()
-	{
-	    loginCheck();
-	
-		$.ajax
-	    ({
-	        url   : "/commentwrite",
-	        type  : "post",
-	        data  : 
-			{ 
-				bno		: $("#bno").val(),
-				uno		: $("#uno").val(),
-				cwriter : $("#id").val(),
-				ctext 	: $("#ctext").val() 
-			},
-	        success: function(data)
-	        {
-	            
-	        },
-	        error: function(xhr, status, error)
-	        {
-	            console.log(error);
-	        }
-	    });
-		$("#comment").html("");
-		$("#commentpaginglist").html("");
-		commentlist();
-		commentpaginglist();
-	}
-	
-	
-	
-	function commentpaginglist()
-	{
-	    $.ajax
-	    ({
-	        url   : "/commentlist",
-	        type  : "get",
-	        data  : 
-					{
-						bno : $("#bno").val(),
-						nowPage : nowPage
-					},
-			datetype : "json",
-	        success: function(data)
-	        {
-				console.log(data);
-				paging 		= data.paging;
-				startPage 	= paging.startPage;
-				endPage 	= paging.endPage;
-				
-				if(startPage != 1)
-				{            
-			       $("#commentpaginglist").append("<a href='#' id='backPage'><</a>"); 
-			    }
-				
-
-				for(var i = startPage ; i <= endPage ; i++)
-				{
-				 	if(nowPage == i)
-					{
-						$("#commentpaginglist").append("<a>"+i+"</a>"); 
-					}
-					if(nowPage != i)
-					{
-						$("#commentpaginglist").append("<a href='#' id='goPage' page='"+i+"'>"+i+"</a>"); 
-					}
-				}
-				
-				if(endPage != paging.lastPage)
-				{            
-			        $("#commentpaginglist").append("<a href='#' id='nextPage'>></a>"); 
-			    }
-				 
-				
-	        },
-	        error: function(xhr, status, error)
-	        {
-	            console.log(error);
-	        }
-	    });
-	}	 
-	
-	$(document).on("click","#goPage",function()
-			{
-				nowPage = $(this).attr("page");
-				$("#comment").html("");
-				$("#commentpaginglist").html("");
-				commentlist();
-				commentpaginglist();
-			});
-	
-	$(document).on("click","#backPage",function()
-			{
-				nowPage = startPage - 1;
-				$("#comment").html("");
-				$("#commentpaginglist").html("");
-				commentlist();
-				commentpaginglist();
-			});
-	$(document).on("click","#nextPage",function()
-			{
-				nowPage = endPage + 1;
-				$("#comment").html("");
-				$("#commentpaginglist").html("");
-				commentlist();
-				commentpaginglist();
-			});
-	
-</script>
+<script src="/resources/JS/detail.js"></script>
 </head>
 <body>
+<%@ include file="../header.jsp" %>
 	<form>
-		<input type="hidden" id="bno" name="bno" 	value="${vo.bno}">
-		<input type="hidden" id="uno" name="uno" 	value="${user.uno}">
-		<input type="hidden" id="id"  name="id" 	value="${user.id}">
-		<table style="margin: auto; margin-top: 10%;" id="tb">
+		<input type="hidden" id="bno" 	 name="bno" 	value="${vo.bno}">
+		<input type="hidden" id="uno" 	 name="uno" 	value="${user.uno}">
+		<input type="hidden" id="id"  	 name="id" 		value="${user.id}">
+		<input type="hidden" id="fname"  name="fname" 	value="${fvo.fname}">
+		<table style="margin: auto; margin-top: 10%; width: 1000px;" id="tb">
 			<tr>
 				<th>작성자</th>
 				<td>${vo.writer}</td>
@@ -251,7 +60,15 @@
 			<tr>
 				<th>내용</th>
 				<td colspan="3">
-					<textarea rows="20" cols="50" placeholder="내용을 입력하세요" readonly="readonly">${vo.btext}</textarea>
+					<textarea rows="20" disabled="disabled" >${vo.btext}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					첨부파일
+				</th>
+				<td colspan="3" align="left">
+					<a href="#" id="file">${fvo.fname}</a> 
 				</td>
 			</tr>
 			<tr>
@@ -260,15 +77,15 @@
 					<input type="button" value="수정하기" onclick="location.href='/mody?bno=${vo.bno}'">
 				</c:if>
 				<c:if test="${vo.uno == user.uno}">
-					<input type="button" value="삭제하기" onclick="location.href='/board/delete?bno=${vo.bno}'">
+					<input type="button" value="삭제하기" id="delete">
 				</c:if>
 					<input type="button" value="메인으로" onclick="location.href='/'">
 				</td>
 			</tr>
 			<tr>
-				<td>댓글</td>
+				<th>댓글</th>
 				<td colspan="3">
-					<textarea rows="7" cols="50" placeholder="댓글을 입력하세요" name="ctext" id="ctext"></textarea>
+					<textarea rows="7" placeholder="댓글을 입력하세요" name="ctext" id="ctext"></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -288,7 +105,8 @@
 				
 			</tbody>
 			<tr>
-				<td colspan="4" align="center" id="commentpaginglist">
+				<td></td>
+				<td colspan="3" align="center" id="commentpaginglist">
 				
 				</td>
 			</tr>

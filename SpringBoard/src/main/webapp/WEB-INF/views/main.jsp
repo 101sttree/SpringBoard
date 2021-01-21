@@ -8,50 +8,21 @@
 <meta charset="EUC-KR">
 <title>메인화면</title>
 <style type="text/css">
-td, th {
-	border-bottom: 1px solid black;
-}
+	td, th 
+	{
+		border-bottom: 1px solid black;
+	}
+	div
+	{
+		text-align: center;
+	}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript">
-	function loginCheck()
-	{
-		$.ajax
-	    ({
-	        url		 : "/loginCheck",
-	        dataType : "json",
-	        success: function(data)
-	        {
-	            console.log(data);
-				if(data.check == "loginok")
-				{
-					location.href = "/writego"
-				}
-				if(data.check == "loginno")
-				{
-					alert("로그인이 필요한 서비스 입니다.");
-					location.href = "/login"
-				}
-	        },
-	        error: function(xhr, status, error) 
-	        {
-	            console.log(error);
-	        }
-	    });
-	}
-	
-	
-	
-
-
-	
-</script>
+<script src="/resources/JS/main.js"></script>
 </head>
 <body>
+<%@ include file="./header.jsp" %>
 	<table style="width: 60%; height: 40%; margin: auto; margin-top: 15%;">
-		<tr>
-			<th colspan="5"><h1>스프링 게시판</h1></th>
-		</tr>
 		<c:if test="${user eq null}">
 			<tr>
 				<td colspan="5" align="right"><input type="button" value="로그인"
@@ -60,8 +31,7 @@ td, th {
 		</c:if>
 		<c:if test="${user ne null}">
 			<tr>
-				<td colspan="5" align="right"><input type="button" value="로그아웃"
-					onclick="location.href='/logout'"></td>
+				<td colspan="5" align="right"><input type="button" value="로그아웃" id="logout"></td>
 			</tr>
 			<tr>
 				<td colspan="5" align="left">${id}님환영합니다.</td>
@@ -86,7 +56,7 @@ td, th {
 
 		<tr>
 			<th>글번호</th>
-			<th width="50%">제목</th>
+			<th width="60%">제목</th>
 			<th>작성자</th>
 			<th>작성일</th>
 			<th>조회수</th>

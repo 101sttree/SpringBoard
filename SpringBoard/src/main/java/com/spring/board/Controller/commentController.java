@@ -50,7 +50,7 @@ public class commentController
 		
 		try 
 		{
-			System.out.println(nowPage);
+			
 			int total = mapper.commentcount(commentVO);
 			if (nowPage == null && cntPerPage == null) 
 			{
@@ -85,7 +85,6 @@ public class commentController
 		} 
 		catch(Exception e) 
 		{
-			System.out.println(e.toString());
 			jObject = new JsonObject();
 			jObject.add("cheack", 	gson.toJsonTree("fail"));
 			jObject.add("erroe", 	gson.toJsonTree(e.toString()));
@@ -111,6 +110,101 @@ public class commentController
 		 * mapper.commentwrite(commentVO); }
 		 */
 		int commentwrite = mapper.commentwrite(commentVO);
+	}
+	
+	//´ñ±Û ¼öÁ¤
+	@PostMapping(value = "/commentmody")
+	public void commentmody
+	(
+			CommentVO commentVO,
+			HttpServletRequest request,
+			HttpServletResponse response
+	)
+	throws Exception
+	{
+		
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
+		PrintWriter pWriter = response.getWriter();
+		JsonObject 	jObject = new JsonObject();
+		Gson 		gson 	= new GsonBuilder().setPrettyPrinting().create();
+		HttpSession session = request.getSession();
+		UserVO 		userVO 	= (UserVO)session.getAttribute("user");
+		try 
+		{
+			
+			if(userVO.getUno() == commentVO.getUno())
+			{
+				int 		cmody 		= mapper.commentmody(commentVO);
+				CommentVO 	commentinfo = mapper.commentinfo(commentVO.getCno());
+				jObject.add("check", gson.toJsonTree("ok"));
+				jObject.add("cinfo", gson.toJsonTree(commentinfo));
+			}
+			if(userVO.getUno() != commentVO.getUno())
+			{
+				CommentVO 	commentinfo = mapper.commentinfo(commentVO.getCno());
+				jObject.add("check", gson.toJsonTree("no"));
+				jObject.add("cinfo", gson.toJsonTree(commentinfo));
+			}
+		}
+		catch (Exception e) 
+		{
+			jObject = new JsonObject();
+			jObject.add("cheack", 	gson.toJsonTree("fail"));
+			jObject.add("erroe", 	gson.toJsonTree(e.toString()));
+		}
+		finally 
+		{
+			pWriter.write(gson.toJson(jObject));
+		}
+		
+		
+		
+	}
+	//´ñ±Û »èÁ¦
+	@PostMapping(value = "/commentdelete")
+	public void commentdeleteone
+	(
+			int cno,
+			HttpServletRequest request,
+			HttpServletResponse response
+	)
+	throws Exception
+	{
+		
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
+		PrintWriter pWriter = response.getWriter();
+		JsonObject 	jObject = new JsonObject();
+		Gson 		gson 	= new GsonBuilder().setPrettyPrinting().create();
+		HttpSession session = request.getSession();
+		UserVO 		userVO 	= (UserVO)session.getAttribute("user");
+		CommentVO 	commentVO = mapper.commentinfo(cno);
+		try 
+		{
+			if(userVO.getUno() == commentVO.getUno())
+			{
+				int cdelete = mapper.commentdeleteone(cno);
+				jObject.add("check", gson.toJsonTree("ok"));
+			}
+			if(userVO.getUno() != commentVO.getUno())
+			{
+				jObject.add("check", gson.toJsonTree("no"));
+			}
+		}
+		catch (Exception e) 
+		{
+			jObject = new JsonObject();
+			jObject.add("cheack", 	gson.toJsonTree("fail"));
+			jObject.add("erroe", 	gson.toJsonTree(e.toString()));
+		}
+		finally 
+		{
+			pWriter.write(gson.toJson(jObject));
+		}
+		
+		
+		
 	}
 	
 
