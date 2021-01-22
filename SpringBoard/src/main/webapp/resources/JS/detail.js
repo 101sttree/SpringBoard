@@ -7,7 +7,7 @@ $(document).ready(function()
 });
 
 //댓글 쓰기 로그인 여부 체크
-function loginCheck()
+function cloginCheck()
 {
 	$.ajax
     ({
@@ -19,8 +19,12 @@ function loginCheck()
 			
 			if(data.check == "loginno")
 			{
-				alert("로그인이 필요한 서비스 입니다.");
-				location.href = "/login"
+				
+				if(confirm("로그인이 필요한 서비스 입니다. 로그인 하시겠습니까?"))
+				{
+					location.href = "/login"
+				}
+				
 			}
         },
         error: function(xhr, status, error) 
@@ -29,6 +33,36 @@ function loginCheck()
         }
     });
 }
+//답글 쓰기 로그인 여부 체크
+function bloginCheck()
+{
+	$.ajax
+    ({
+        url		 : "/loginCheck",
+        dataType : "json",
+        success: function(data)
+        {
+            console.log(data);
+			
+			if(data.check == "loginno")
+			{
+				if(confirm("로그인이 필요한 서비스 입니다. 로그인 하시겠습니까?"))
+				{
+					location.href = "/login"
+				}
+			}
+			if(data.check == "loginok")
+			{
+				$("#detailform").submit();
+			}	
+        },
+        error: function(xhr, status, error) 
+        {
+            console.log(error);
+        }
+    });
+}
+
 
 
 //댓글 불러오기
@@ -103,7 +137,7 @@ function commentlist()
 //댓글 작성 및 불러오기
 function commentwrite()
 {
-    loginCheck();
+    cloginCheck();
 
 	$.ajax
     ({

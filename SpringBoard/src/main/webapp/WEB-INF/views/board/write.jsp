@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" 		prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>        
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +15,12 @@
 				enctype="multipart/form-data">
 		<input 	type="hidden" value="${user.uno }" 	name="uno">
 		<input 	type="hidden" value="${id }" 		name="writer">
+		<c:if test="${vo ne null}">
+			<input 	type="hidden" value="${vo.bno}" 	name="bno">
+			<input 	type="hidden" value="${vo.origino}" 	name="origino">
+			<input 	type="hidden" value="${vo.groupord}" 	name="groupord">
+			<input 	type="hidden" value="${vo.grouplayer}" 	name="grouplayer">
+		</c:if>
 		<table 	style="margin: auto; margin-top: 15%;">
 			<tr>
 				<th>작성자</th>

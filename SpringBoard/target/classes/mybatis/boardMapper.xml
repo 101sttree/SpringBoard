@@ -44,7 +44,7 @@
 				
 			</if>
 		</trim>
-		order by bno desc
+		order by origino desc ,groupord asc
 		limit #{start}, 5 
 	</select>
 	<select id="boardlast" resultType="BoardVO">
@@ -60,6 +60,9 @@
 			writer, 
 			title, 
 			btext, 
+			origino,
+			groupord,
+			grouplayer,
 			bdate
 		) values
 		(
@@ -67,6 +70,9 @@
 			#{writer}, 
 			#{title}, 
 			#{btext}, 
+			#{origino}, 
+			#{groupord}, 
+			#{grouplayer}, 
 			now() 
 		)
 		
@@ -89,6 +95,29 @@
 		btext = #{btext} 
 		where bno = #{bno}
 	</update>
+	
+	<update id="boardhit" parameterType="int">
+		update boardtb
+			set  
+			hit = hit + 1
+			where bno = #{bno}
+	</update>
+	<update id="boardanup" parameterType="BoardVO">
+		update 
+		boardtb 
+		set 
+		groupord = groupord + 1 
+		where 
+		origino = #{origino} 
+		and groupord &lt; #{groupord}
+	</update>
+	<update id="boardoriup" parameterType="BoardVO">
+		update boardtb
+		set 
+		origino = #{bno}
+		where bno = #{bno}
+	</update>
+	
 	
 	
 </mapper>

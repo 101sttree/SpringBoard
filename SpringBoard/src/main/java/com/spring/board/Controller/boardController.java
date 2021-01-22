@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,7 @@ import com.spring.board.VO.BoardVO;
 import com.spring.board.VO.FileVO;
 import com.spring.board.VO.PagingVO;
 import com.spring.board.VO.SearchVO;
+import com.spring.board.VO.UserVO;
 
 @Controller
 
@@ -100,24 +103,88 @@ public class boardController
 	@GetMapping(value = "/board/detail")
 	public ModelAndView detail
 	(
-		Locale locale,
+		HttpServletRequest request,
+		HttpServletResponse response,
+		HttpSession session,
 		Model model,
 		int bno,
 		@RequestParam HashMap<Object, Object> params,
 		ModelAndView mv
 	) {
-
-		BoardVO vo = mapper.boarddetail(bno);
-		FileVO fileVO = fmapper.fileselect(bno);
-		//model.addAttribute("vo", vo);
-		mv.setViewName("board/detail");
+		
+		UserVO 		userVO 		= (UserVO)session.getAttribute("user");
+		//기존에 존재하던 쿠키 가져옴
+		Cookie[] 	reqCookie 	= request.getCookies();
+		//null값 비교용 쿠키
+		Cookie 		nullCookie 	= null;
+		//기존 쿠키가 존재할 경우 새로운 비교용 쿠키에 기존 쿠키 값을 넣어준다.
+		if(reqCookie != null && reqCookie.length > 0 && userVO != null)
+		{
+			for (int i = 0; i < reqCookie.length; i++) 
+			{
+				if(reqCookie[i].getName().equals("cookie" + userVO.getUno() + bno))
+				{
+					nullCookie = reqCookie[i];
+				}
+			}
+		}
+		
+		if(reqCookie != null && reqCookie.length > 0 && userVO == null)
+		{
+			for (int i = 0; i < reqCookie.length; i++) 
+			{
+				if(reqCookie[i].getName().equals("cookie" + bno))
+				{
+					nullCookie = reqCookie[i];
+				}
+			}
+		}
+		
+		if(userVO != null && nullCookie == null)
+		{
+			Cookie cookie = new Cookie("cookie"+ userVO.getUno() + bno, "cookie"+ userVO.getUno() + bno);
+			cookie.setMaxAge(60*60*12);
+			response.addCookie(cookie);
+			int boardhit = mapper.boardhit(bno);
+			
+			if(boardhit > 0)
+			{
+				System.out.println("조회수 증가 성공");
+			}
+			if(boardhit <= 0)
+			{
+				System.out.println("조회수 증가 실패");
+			}
+		}
+		
+		if(userVO == null && nullCookie == null)
+		{
+			Cookie cookie = new Cookie("cookie" + bno, "cookie" + bno);
+			cookie.setMaxAge(60*60*12);
+			response.addCookie(cookie);
+			int boardhit = mapper.boardhit(bno);
+			
+			if(boardhit > 0)
+			{
+				System.out.println("조회수 증가 성공");
+			}
+			if(boardhit <= 0)
+			{
+				System.out.println("조회수 증가 실패");
+			}
+		}
+		
+		
+		BoardVO vo 		= mapper.boarddetail(bno);
+		FileVO fileVO 	= fmapper.fileselect(bno);
 		mv.addObject("vo", vo);
 		mv.addObject("fvo", fileVO);
+		mv.setViewName("board/detail");
 		return mv;
 	}
 	
 	
-
+	//파일 다운로드 클래스 연동 컨트롤러
 	@RequestMapping("/common/download")
 	public ModelAndView download
 	(
@@ -137,16 +204,6 @@ public class boardController
 		return mv;
 	}
 	
-	@RequestMapping("/board/board.do")
-	public ModelAndView board
-	(
-		@RequestParam HashMap<Object, Object> params,
-		ModelAndView mv
-	) 
-	{
-		mv.setViewName("board/board");
-		return mv;
-	}
 	
 	//글 작성
 	@PostMapping(value = "/board/write")
@@ -158,40 +215,69 @@ public class boardController
 		//화면에서 받아온 파일을 가지고 있는 객체이다.
 	) 
 	{
-		try 
+		System.out.println(vo.getBno());
+		if(vo.getBno() > 0)
+		//답글 작성일 경우
 		{
-			int 	write 	  = mapper.boardwrite(vo);
-			BoardVO boardlast = mapper.boardlast();
-			MultipartFile mf = mtfRequest.getFile("file");
-			
-			if(mf != null)
+			if(vo.getOrigino() != 0)
 			{
-				//파일 정보 추출 및 입력
-				String 	originFileName 	= mf.getOriginalFilename();
-				long 	fileSize 		= mf.getSize();
-				String 	safeFile = UPLOAD_PATH + "\\" + originFileName;
-				FileVO 	fileVO = new FileVO();
-				fileVO.	setBno(boardlast.getBno());
-				fileVO.	setUno(vo.getUno());
-				fileVO.	setFsize(mf.getSize());
-				fileVO.	setFname(mf.getOriginalFilename());
-				fileVO.	setPath(UPLOAD_PATH);
-				int 	index 	= originFileName.lastIndexOf('.');
-				String 	hwak 	= originFileName.substring(index);
-				fileVO.	setEx(hwak);
 				
-				mf.transferTo(new File(safeFile));
-				int fileinsert = fmapper.fileinsert(fileVO);
+				vo.setGrouplayer(vo.getGrouplayer() + 1);
+				System.out.println("답글의 답글" + vo.toString());
+				mapper.boardanup(vo);
 			}
-			
-			
-		} catch (IllegalStateException e) 
-		{
-			e.printStackTrace();
-		} catch (Exception e) 
-		{
-			e.printStackTrace();
+			if(vo.getGroupord() == 0)
+			{
+				vo.setOrigino(vo.getBno());
+				vo.setGroupord(1);
+				vo.setGrouplayer(1);
+				System.out.println("원글의 답글" + vo.toString());
+			}
 		}
+		  try 
+		  {
+			  //일반 글 작성일 경우
+			 
+			  int 		write 		= mapper.boardwrite(vo);
+			  BoardVO 	boardlast 	= mapper.boardlast(); 
+			  if(vo.getOrigino() == 0)
+			  {
+				  mapper.boardoriup(boardlast);
+			  }
+			  MultipartFile mf = mtfRequest.getFile("file");
+		  
+			  if(mf != null) 
+			  { 
+				  //파일 정보 추출 및 입력 
+			  String 	originFileName = mf.getOriginalFilename(); 
+			  long 		fileSize 	= mf.getSize(); 
+			  String 	safeFile 	= UPLOAD_PATH + "\\" + originFileName; 
+			  FileVO 	fileVO 		= new FileVO();
+			  
+			  fileVO. setBno(boardlast.getBno());
+			  fileVO. setUno(vo.getUno());
+			  fileVO. setFsize(mf.getSize());
+			  fileVO. setFname(mf.getOriginalFilename());
+			  fileVO. setPath(UPLOAD_PATH); 
+			  int index = originFileName.lastIndexOf('.'); String
+			  hwak = originFileName.substring(index); 
+			  fileVO. setEx(hwak);
+			  
+			  mf.transferTo(new File(safeFile)); 
+			  int fileinsert = fmapper.fileinsert(fileVO); 
+			  }
+		  
+		  
+		  } 
+		  catch (IllegalStateException e) 
+		  {
+			  e.printStackTrace(); 
+		  }
+		  catch (Exception e) 
+		  {
+			  e.printStackTrace(); 
+		  }
+		 
 		
 		
 		return "redirect:/";

@@ -10,9 +10,13 @@ public interface boardMapper
 {
 	public List<BoardVO> boardlist(SearchVO vo);
 	public BoardVO boarddetail(int bno);
+	public BoardVO boardlast();
 	public int boardwrite(BoardVO vo);
 	public int boardcount(SearchVO vo);
 	public int boardmody(BoardVO vo);
 	public int boarddelete(int bno);
-	public BoardVO boardlast();
+	public int boardhit(int bno);
+	public int boardanup(BoardVO vo);
+	public int boardoriup(BoardVO vo);
+	
 }

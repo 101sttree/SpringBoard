@@ -39,12 +39,16 @@
 </head>
 <body>
 <%@ include file="../header.jsp" %>
-	<form>
+	<form id="detailform" action="/anwritego" method="get">
 		<input type="hidden" id="bno" 	 name="bno" 	value="${vo.bno}">
 		<input type="hidden" id="uno" 	 name="uno" 	value="${user.uno}">
 		<input type="hidden" id="id"  	 name="id" 		value="${user.id}">
 		<input type="hidden" id="fname"  name="fname" 	value="${fvo.fname}">
+		<input type="hidden" value="${vo.origino}" 		name="origino">
+		<input type="hidden" value="${vo.groupord}" 	name="groupord">
+		<input type="hidden" value="${vo.grouplayer}" 	name="grouplayer">
 		<table style="margin: auto; margin-top: 10%; width: 1000px;" id="tb">
+			
 			<tr>
 				<th>작성자</th>
 				<td>${vo.writer}</td>
@@ -53,8 +57,12 @@
 			</tr>
 			<tr>
 				<th>제목</th>
-				<td colspan="3">
+				<td>
 					${vo.title}
+				</td>
+				<th>조회수</th>
+				<td>
+					${vo.hit}
 				</td>
 			</tr>
 			<tr>
@@ -79,6 +87,7 @@
 				<c:if test="${vo.uno == user.uno}">
 					<input type="button" value="삭제하기" id="delete">
 				</c:if>
+					<input type="button" value="답글" onclick="bloginCheck()">
 					<input type="button" value="메인으로" onclick="location.href='/'">
 				</td>
 			</tr>

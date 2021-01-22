@@ -15,6 +15,9 @@ public class CommentVO
 	private int	bno;
 	private int uno;
 	private int start;
+	private int origino;
+	private int groupord;
+	private int grouplayer;
 	private String cwriter;
 	private String ctext;
 	private Date cdate;

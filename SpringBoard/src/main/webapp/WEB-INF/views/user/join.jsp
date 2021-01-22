@@ -6,7 +6,7 @@
 <meta charset="EUC-KR">
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="/resources/JS/join.js"></script>
+<script src="/resources/JS/user.js"></script>
 </head>
 <body>
 	<form id="joinfrm" name="joinfrm" method="post" action="/joinok">

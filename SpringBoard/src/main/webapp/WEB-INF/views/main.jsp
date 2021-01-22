@@ -64,7 +64,7 @@
 		<c:forEach var="list" items="${list }" begin="0" end="${fn:length(list)}">
 			<tr>
 				<th>${list.bno }</th>
-				<th><a href="/board/detail?bno=${list.bno }">${list.title }</a></th>
+				<td><a href="/board/detail?bno=${list.bno }">${list.title }</a></td>
 				<th>${list.writer }</th>
 				<th>${list.bdate }</th>
 				<th>${list.hit }</th>

@@ -14,6 +14,9 @@ public class BoardVO
 	private int bno;
 	private int uno;
 	private int hit;
+	private int origino;
+	private int groupord;
+	private int grouplayer;
 	private String writer;
 	private String title;
 	private String btext;
