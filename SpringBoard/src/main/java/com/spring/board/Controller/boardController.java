@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.style.ToStringCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -215,67 +216,82 @@ public class boardController
 		//화면에서 받아온 파일을 가지고 있는 객체이다.
 	) 
 	{
-		System.out.println(vo.getBno());
-		if(vo.getBno() > 0)
-		//답글 작성일 경우
-		{
-			if(vo.getOrigino() != 0)
-			{
+		
+		//System.out.println(vo.getBno());
+	    try 
+	    {
+	    	vo.setGroupord(0);
+			if(vo.getBno() > 0)
+			//답글 작성일 경우
+			{	
+				//답글의 답글
+				if(vo.getGroupord() != 0)
+				{
+					mapper.boardanup(vo);
+					vo.setGrouplayer(vo.getGrouplayer() + 1);
+					System.out.println("답글의 답글" + vo.toString());
+					
+				}
+				//원글의 답글
+				if(vo.getGroupord() == 0)
+				{
+					mapper.boardanup(vo);
+					vo.setGroupord(1);
+					vo.setGrouplayer(1);
+					System.out.println("원글의 답글" + vo.toString());
+					
+					BoardVO	boardgrdmax = mapper.boardgrdmax(vo);
+					System.out.println(boardgrdmax);
+					int boardgrdup =  mapper.boardgrdup(boardgrdmax);
+					System.out.println(boardgrdup);
+				}
 				
-				vo.setGrouplayer(vo.getGrouplayer() + 1);
-				System.out.println("답글의 답글" + vo.toString());
-				mapper.boardanup(vo);
+				
 			}
-			if(vo.getGroupord() == 0)
-			{
-				vo.setOrigino(vo.getBno());
-				vo.setGroupord(1);
-				vo.setGrouplayer(1);
-				System.out.println("원글의 답글" + vo.toString());
-			}
-		}
-		  try 
-		  {
+		 
 			  //일반 글 작성일 경우
-			 
 			  int 		write 		= mapper.boardwrite(vo);
 			  BoardVO 	boardlast 	= mapper.boardlast(); 
 			  if(vo.getOrigino() == 0)
 			  {
 				  mapper.boardoriup(boardlast);
 			  }
-			  MultipartFile mf = mtfRequest.getFile("file");
-		  
-			  if(mf != null) 
-			  { 
-				  //파일 정보 추출 및 입력 
-			  String 	originFileName = mf.getOriginalFilename(); 
-			  long 		fileSize 	= mf.getSize(); 
-			  String 	safeFile 	= UPLOAD_PATH + "\\" + originFileName; 
-			  FileVO 	fileVO 		= new FileVO();
+			 
 			  
-			  fileVO. setBno(boardlast.getBno());
-			  fileVO. setUno(vo.getUno());
-			  fileVO. setFsize(mf.getSize());
-			  fileVO. setFname(mf.getOriginalFilename());
-			  fileVO. setPath(UPLOAD_PATH); 
-			  int index = originFileName.lastIndexOf('.'); String
-			  hwak = originFileName.substring(index); 
-			  fileVO. setEx(hwak);
 			  
-			  mf.transferTo(new File(safeFile)); 
-			  int fileinsert = fmapper.fileinsert(fileVO); 
+				  MultipartFile mf = mtfRequest.getFile("file");
+			  
+				  if(mf != null) 
+				  { 
+					  //파일 정보 추출 및 입력 
+				  String 	originFileName = mf.getOriginalFilename(); 
+				  long 		fileSize 	= mf.getSize(); 
+				  String 	safeFile 	= UPLOAD_PATH + "\\" + originFileName; 
+				  FileVO 	fileVO 		= new FileVO();
+				  
+				  fileVO. setBno(boardlast.getBno());
+				  fileVO. setUno(vo.getUno());
+				  fileVO. setFsize(mf.getSize());
+				  fileVO. setFname(mf.getOriginalFilename());
+				  fileVO. setPath(UPLOAD_PATH); 
+				  int index = originFileName.lastIndexOf('.'); String
+				  hwak = originFileName.substring(index); 
+				  fileVO. setEx(hwak);
+				  
+				  mf.transferTo(new File(safeFile)); 
+				  int fileinsert = fmapper.fileinsert(fileVO); 
 			  }
-		  
+			  
+			
 		  
 		  } 
 		  catch (IllegalStateException e) 
 		  {
-			  e.printStackTrace(); 
+			   e.fillInStackTrace();
 		  }
 		  catch (Exception e) 
 		  {
-			  e.printStackTrace(); 
+			  System.out.println(e);
 		  }
 		 
 		

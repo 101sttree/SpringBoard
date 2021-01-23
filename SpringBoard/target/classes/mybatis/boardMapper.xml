@@ -44,7 +44,8 @@
 				
 			</if>
 		</trim>
-		order by origino desc ,groupord asc
+		
+		order by origino desc ,groupord desc 
 		limit #{start}, 5 
 	</select>
 	<select id="boardlast" resultType="BoardVO">
@@ -109,14 +110,29 @@
 		groupord = groupord + 1 
 		where 
 		origino = #{origino} 
-		and groupord &lt; #{groupord}
+		and groupord > #{groupord}
 	</update>
 	<update id="boardoriup" parameterType="BoardVO">
 		update boardtb
 		set 
 		origino = #{bno}
 		where bno = #{bno}
+		
 	</update>
+	<update id="boardgrdup" parameterType="BoardVO">
+		update boardtb
+		set 
+		groupord = #{groupord} + 2 
+		where groupord = 0
+	</update>
+	<select id="boardgrdmax" parameterType="BoardVO" resultType="BoardVO">
+		select * from boardtb
+		where
+		origino = #{origino}
+		order by groupord desc
+		limit 1
+	</select>
+	
 	
 	
 	

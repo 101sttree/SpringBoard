@@ -16,7 +16,10 @@ public interface boardMapper
 	public int boardmody(BoardVO vo);
 	public int boarddelete(int bno);
 	public int boardhit(int bno);
+	//계층형 구현용
 	public int boardanup(BoardVO vo);
 	public int boardoriup(BoardVO vo);
+	public int boardgrdup(BoardVO vo);
+	public BoardVO boardgrdmax(BoardVO vo);
 	
 }
