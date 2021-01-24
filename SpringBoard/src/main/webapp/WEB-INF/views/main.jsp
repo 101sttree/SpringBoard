@@ -62,14 +62,32 @@
 			<th>조회수</th>
 		</tr>
 		<c:forEach var="list" items="${list }" begin="0" end="${fn:length(list)}">
+			<c:if test="${list.grouplayer < 4}">
 			<tr>
-				<th>${list.groupord }</th>
-				<td><a href="/board/detail?bno=${list.bno }">${list.title }</a></td>
+				<th>${list.bno }</th>
+				<c:choose>
+					<c:when test="${list.grouplayer eq 0}">
+						<td><a href="/board/detail?bno=${list.bno }">${list.title }</a></td>
+					</c:when>
+					<c:when test="${list.grouplayer eq 1}">
+						<td>&nbsp;&nbsp;ㄴ<a href="/board/detail?bno=${list.bno }">${list.title }</a></td>
+					</c:when>
+					<c:when test="${list.grouplayer eq 2}">
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ㄴ<a href="/board/detail?bno=${list.bno }">${list.title }</a></td>
+					</c:when>
+					<c:when test="${list.grouplayer eq 3}">
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						ㄴ<a href="/board/detail?bno=${list.bno }">${list.title }</a></td>
+					</c:when>
+				</c:choose>
+				
 				<th>${list.writer }</th>
 				<th>${list.bdate }</th>
 				<th>${list.hit }</th>
 			</tr>
+			</c:if>
 		</c:forEach>
+		
 		<tr>
 			<td align="center" colspan="5">
 				<c:if test="${paging.startPage != 1}">

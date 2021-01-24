@@ -1,6 +1,7 @@
 package com.spring.board.Controller;
 
 import java.io.File;
+import java.lang.invoke.VolatileCallSite;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -75,7 +76,7 @@ public class boardController
 		if (nowPage == null && cntPerPage == null) 
 		{
 			nowPage = "1";
-			cntPerPage = "5";
+			cntPerPage = "10";
 		}
 		if (nowPage == null) 
 		{
@@ -83,7 +84,7 @@ public class boardController
 		}
 		if (cntPerPage == null) 
 		{ 
-			cntPerPage = "5";
+			cntPerPage = "10";
 		}
 		
 		pagingVO = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
@@ -217,48 +218,55 @@ public class boardController
 	) 
 	{
 		
-		//System.out.println(vo.getBno());
+		
 	    try 
 	    {
-	    	vo.setGroupord(0);
+	    	
 			if(vo.getBno() > 0)
 			//답글 작성일 경우
 			{	
 				//답글의 답글
-				if(vo.getGroupord() != 0)
+				if(vo.getGrouplayer() != 0)
 				{
-					mapper.boardanup(vo);
+					mapper.boardananup(vo);
+					vo.setGroupord(vo.getGroupord()+1);
+					System.out.println(vo.getGroupord());
 					vo.setGrouplayer(vo.getGrouplayer() + 1);
 					System.out.println("답글의 답글" + vo.toString());
 					
+					
 				}
 				//원글의 답글
-				if(vo.getGroupord() == 0)
+				if(vo.getGrouplayer() == 0)
 				{
-					mapper.boardanup(vo);
-					vo.setGroupord(1);
+					//mapper.boardanup(vo);
+					//같은 원글을 참조하고 그룹내 순서가 0 보다 큰 숫자들을 1씩 증가시킨다.
+					BoardVO	boardgrdmax = mapper.boardgrdmax(vo);
+					vo.setGroupord(boardgrdmax.getGroupord()+1);
+					//작성하는 답글의 그룹내 번호를 1로 설정한다.
 					vo.setGrouplayer(1);
+					//작성하는 답글의 층 번호를 1로 설정한다.
 					System.out.println("원글의 답글" + vo.toString());
 					
-					BoardVO	boardgrdmax = mapper.boardgrdmax(vo);
-					System.out.println(boardgrdmax);
-					int boardgrdup =  mapper.boardgrdup(boardgrdmax);
-					System.out.println(boardgrdup);
+					
 				}
 				
 				
 			}
 		 
 			  //일반 글 작성일 경우
-			  int 		write 		= mapper.boardwrite(vo);
-			  BoardVO 	boardlast 	= mapper.boardlast(); 
-			  if(vo.getOrigino() == 0)
-			  {
-				  mapper.boardoriup(boardlast);
-			  }
-			 
-			  
-			  
+			int 		write 		= mapper.boardwrite(vo);
+			
+			//System.out.println("갱신용글 정보 : " + boardgrdmax);
+			//int boardgrdup =  mapper.boardgrdup(boardgrdmax);
+			//System.out.println("원글 그룹번호 수정 여부"+boardgrdup);
+			BoardVO 	boardlast 	= mapper.boardlast(); 
+			if(vo.getOrigino() == 0)
+			{
+				mapper.boardoriup(boardlast);
+			}
+			
+			
 				  MultipartFile mf = mtfRequest.getFile("file");
 			  
 				  if(mf != null) 
