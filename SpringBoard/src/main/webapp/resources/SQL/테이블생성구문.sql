@@ -17,9 +17,9 @@ create table boardtb
 	title varchar(100) not null,
 	bdate date not null,
 	btext text not null,
-	origino int,
-	groupord int,
-	grouplayer int,
+	origino int default 0,
+	groupord int default 0,
+	grouplayer int default 0,
 	primary key(bno),
 	foreign key (uno) references usertb (uno)
 );
@@ -32,9 +32,9 @@ create table commenttb
 	cwriter varchar(50) not null,
 	cdate date not null,
 	ctext text not null,
-	origino int,
-	groupord int,
-	grouplayer int,
+	origino int default 0,
+	groupord int default 0,
+	grouplayer int default 0,
 	primary key(cno),
 	foreign key (bno) references boardtb (bno),
 	foreign key (uno) references usertb (uno)

@@ -5,6 +5,26 @@
 <head>
 <meta charset="EUC-KR">
 <title>글 상세 보기</title>
+<style type="text/css">
+	img
+	{
+		width: 150px;
+		height: 150px;
+	}
+	table 
+	{
+		margin: auto;
+		margin-top: 10%;
+		width: 1000px;
+	}
+	textarea
+	{
+		resize: none;
+		width: 98%;
+	}
+</style>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="/resources/JS/write.js"></script>
 </head>
 <body>
 	<form action="/board/mody" method="post" name="frm">
@@ -29,12 +49,20 @@
 				</td>
 			</tr>
 			<tr>
+				<th>첨부파일</th>
+				<td colspan="3">
+					<input type="file" name="file" id="file"><br>
+					<img id="img">
+				</td>
+			</tr>
+			<tr>
 				<td colspan="4" align="right">
 					<input type="submit" value="등록하기">
 					<input type="button" value="취소" onclick="location.href='/board/detail?bno=${vo.bno}'">
 					<input type="button" value="메인으로" onclick="location.href='/'">
 				</td>
 			</tr>
+			
 		</table>
 	</form>
 </body>

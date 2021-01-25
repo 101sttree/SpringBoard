@@ -111,27 +111,12 @@
 		origino = #{origino} 
 		and groupord > #{groupord}
 	</update>
-	<update id="boardananup" parameterType="BoardVO">
-		update 
-		boardtb 
-		set 
-		groupord = groupord + 1 
-		where 
-		origino = #{origino} 
-		and groupord > #{groupord}
-	</update>
 	<update id="boardoriup" parameterType="BoardVO">
 		update boardtb
 		set 
 		origino = #{bno}
 		where bno = #{bno}
 		
-	</update>
-	<update id="boardgrdup" parameterType="BoardVO">
-		update boardtb
-		set 
-		groupord = #{groupord} + 1
-		where grouplayer = 0
 	</update>
 	<select id="boardgrdmax" parameterType="BoardVO" resultType="BoardVO">
 		select * from boardtb

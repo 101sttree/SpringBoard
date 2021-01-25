@@ -73,6 +73,7 @@ public class boardController
 		searchVO.setSearchText(searchText); 
 		int total = mapper.boardcount(searchVO);
 		
+		//현재 페이지 및 페이지당 글 갯수 설정
 		if (nowPage == null && cntPerPage == null) 
 		{
 			nowPage = "1";
@@ -119,7 +120,8 @@ public class boardController
 		Cookie[] 	reqCookie 	= request.getCookies();
 		//null값 비교용 쿠키
 		Cookie 		nullCookie 	= null;
-		//기존 쿠키가 존재할 경우 새로운 비교용 쿠키에 기존 쿠키 값을 넣어준다.
+		//기존 쿠키를 불러옴
+		//로그인이 되있는 경우 유저 번호와 게시글 번호로 된 쿠키를 가져옴
 		if(reqCookie != null && reqCookie.length > 0 && userVO != null)
 		{
 			for (int i = 0; i < reqCookie.length; i++) 
@@ -130,7 +132,7 @@ public class boardController
 				}
 			}
 		}
-		
+		//로그인 되지 않은 pc의 경우 게시글 번호로만 된 쿠키를 가져옴
 		if(reqCookie != null && reqCookie.length > 0 && userVO == null)
 		{
 			for (int i = 0; i < reqCookie.length; i++) 
@@ -142,6 +144,7 @@ public class boardController
 			}
 		}
 		
+		//로그인 된 상태일 경우 게시물 번호와 유저 번호가 이름에 들어간 쿠키를 만든다.
 		if(userVO != null && nullCookie == null)
 		{
 			Cookie cookie = new Cookie("cookie"+ userVO.getUno() + bno, "cookie"+ userVO.getUno() + bno);
@@ -158,7 +161,7 @@ public class boardController
 				System.out.println("조회수 증가 실패");
 			}
 		}
-		
+		//로그인되지 않은 상태일 경우 게시물 번호만 이름에 들어간 쿠키를 만든다.
 		if(userVO == null && nullCookie == null)
 		{
 			Cookie cookie = new Cookie("cookie" + bno, "cookie" + bno);
@@ -228,9 +231,11 @@ public class boardController
 				//답글의 답글
 				if(vo.getGrouplayer() != 0)
 				{
-					mapper.boardananup(vo);
+					//기존 글들 순서값 1 증가
+					mapper.boardanup(vo);
+					//본인의 값을 부모글순서 + 1 로 설정 
 					vo.setGroupord(vo.getGroupord()+1);
-					System.out.println(vo.getGroupord());
+					//부모글의 답글이기 때문에 층수 + 1
 					vo.setGrouplayer(vo.getGrouplayer() + 1);
 					System.out.println("답글의 답글" + vo.toString());
 					
@@ -239,13 +244,12 @@ public class boardController
 				//원글의 답글
 				if(vo.getGrouplayer() == 0)
 				{
-					//mapper.boardanup(vo);
-					//같은 원글을 참조하고 그룹내 순서가 0 보다 큰 숫자들을 1씩 증가시킨다.
+					//현재 작성된 마지막 글의 순서값을 가져온다.
 					BoardVO	boardgrdmax = mapper.boardgrdmax(vo);
+					//새로 작성되는 글의 순서값을 마지막글의 순서값에 + 1 값으로 설정
 					vo.setGroupord(boardgrdmax.getGroupord()+1);
-					//작성하는 답글의 그룹내 번호를 1로 설정한다.
+					//원글의 답글이기 때문에 층수 1로 설정
 					vo.setGrouplayer(1);
-					//작성하는 답글의 층 번호를 1로 설정한다.
 					System.out.println("원글의 답글" + vo.toString());
 					
 					
@@ -256,10 +260,6 @@ public class boardController
 		 
 			  //일반 글 작성일 경우
 			int 		write 		= mapper.boardwrite(vo);
-			
-			//System.out.println("갱신용글 정보 : " + boardgrdmax);
-			//int boardgrdup =  mapper.boardgrdup(boardgrdmax);
-			//System.out.println("원글 그룹번호 수정 여부"+boardgrdup);
 			BoardVO 	boardlast 	= mapper.boardlast(); 
 			if(vo.getOrigino() == 0)
 			{
@@ -289,9 +289,7 @@ public class boardController
 				  mf.transferTo(new File(safeFile)); 
 				  int fileinsert = fmapper.fileinsert(fileVO); 
 			  }
-			  
 			
-		  
 		  } 
 		  catch (IllegalStateException e) 
 		  {
@@ -302,8 +300,6 @@ public class boardController
 			  System.out.println(e);
 		  }
 		 
-		
-		
 		return "redirect:/";
 	}
 	

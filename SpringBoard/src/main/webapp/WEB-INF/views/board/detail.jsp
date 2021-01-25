@@ -6,23 +6,23 @@
 <html>
 <head>
 <meta charset="EUC-KR">
+<meta name="path" id="path" content="${pageContext.request.contextPath}">
 <title>글 상세 보기</title>
 <style type="text/css">
 	a
 	{
 		padding: 3px;
 	}
-	.ctext
-	{
-		height: 110px;
-	}
 	.cta
 	{
 		border: none;
+		height : 50px;
 	}
+	
 	textarea
 	{
 		resize: none;
+		
 		width: 100%;
 	}
 	th
@@ -33,6 +33,17 @@
 	{
 		text-align: center;
 	}
+	table 
+	{
+		margin: auto;
+		margin-top: 10%;
+		width: 1000px;
+	}
+	img
+	{
+		width: 150px;
+		height: 150px;
+	}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/resources/JS/detail.js"></script>
@@ -42,12 +53,13 @@
 	<form id="detailform" action="/anwritego" method="get">
 		<input type="hidden" id="bno" 	 name="bno" 	value="${vo.bno}">
 		<input type="hidden" id="uno" 	 name="uno" 	value="${user.uno}">
+		<input type="hidden" id="cno" 	 name="cno" 	value="">
 		<input type="hidden" id="id"  	 name="id" 		value="${user.id}">
 		<input type="hidden" id="fname"  name="fname" 	value="${fvo.fname}">
-		<input type="hidden" value="${vo.origino}" 		name="origino">
+		<input type="hidden" value="${vo.origino}" 		name="origino" id ="origino">
 		<input type="hidden" value="${vo.groupord}" 	name="groupord">
 		<input type="hidden" value="${vo.grouplayer}" 	name="grouplayer">
-		<table style="margin: auto; margin-top: 10%; width: 1000px;" id="tb">
+		<table id="tb">
 			
 			<tr>
 				<th>작성자</th>
@@ -76,7 +88,7 @@
 					첨부파일
 				</th>
 				<td colspan="3" align="left">
-					<a href="#" id="file">${fvo.fname}</a> 
+					<a href="#" id="file">${fvo.fname}</a><br>
 				</td>
 			</tr>
 			<tr>
@@ -110,11 +122,13 @@
 					</td>
 				</tr>
 			</tbody>
-			<tbody id="comment">
-				
-			</tbody>
-			<tr>
-				<td></td>
+		</table>
+		<table style="margin: auto; width: 1000px;" id="comment">
+		
+		</table>
+		<table style="margin: auto; width: 1000px;">
+		<tr>
+			<td></td>
 				<td colspan="3" align="center" id="commentpaginglist">
 				
 				</td>

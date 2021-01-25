@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.spring.board.Interface.commentMapper;
+import com.spring.board.VO.BoardVO;
 import com.spring.board.VO.CommentVO;
 import com.spring.board.VO.PagingVO;
 import com.spring.board.VO.UserVO;
@@ -55,7 +56,7 @@ public class commentController
 			if (nowPage == null && cntPerPage == null) 
 			{
 				nowPage = "1";
-				cntPerPage = "5";
+				cntPerPage = "10";
 			}
 			if (nowPage == null) 
 			{
@@ -63,7 +64,7 @@ public class commentController
 			}
 			if (cntPerPage == null) 
 			{ 
-				cntPerPage = "5";
+				cntPerPage = "10";
 			}
 			pagingVO = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 			//받아온 값을 페이징객체에 넣어준다.
@@ -105,13 +106,34 @@ public class commentController
 		HttpServletResponse response	
 	)
 	{
-		/*
-		 * for (int i = 0; i < 50; i++) { int commentwrite =
-		 * mapper.commentwrite(commentVO); }
-		 */
-		int commentwrite = mapper.commentwrite(commentVO);
+			System.out.println(commentVO);
+			if(commentVO.getCno() > 0)
+			{	
+				//답글 작성일 경우
+				if(commentVO.getGrouplayer() == 0)
+				{	
+					//현재 작성된 마지막 글의 순서값을 가져온다.
+					CommentVO commentgrdmax = mapper.commentgrdmax(commentVO);
+					System.out.println(commentgrdmax);
+					//새로 작성되는 글의 순서값을 마지막글의 순서값에 + 1 값으로 설정
+					commentVO.setGroupord(commentgrdmax.getGroupord()+1);
+					commentVO.setOrigino(commentgrdmax.getOrigino());
+					//원글의 답글이기 때문에 층수 1로 설정
+					commentVO.setGrouplayer(1);
+					System.out.println("원글의 답글" + commentVO.toString());
+					
+				}
+			}
+			
+			int commentwrite = mapper.commentwrite(commentVO);
+			CommentVO commentlast = mapper.commentlast();
+			
+			if(commentVO.getCno() != commentVO.getOrigino())
+			{
+				mapper.commentoriup(commentlast);
+			}
+	    
 	}
-	
 	//댓글 수정
 	@PostMapping(value = "/commentmody")
 	public void commentmody
@@ -184,7 +206,15 @@ public class commentController
 		{
 			if(userVO.getUno() == commentVO.getUno())
 			{
-				int cdelete = mapper.commentdeleteone(cno);
+				if(commentVO.getGrouplayer() == 1)
+				{
+					int cdelete = mapper.commentdeleteone(cno);
+				}
+				if(commentVO.getGrouplayer() == 0)
+				{
+					int cdeleteori = mapper.commentdeleteori(cno);
+				}
+				
 				jObject.add("check", gson.toJsonTree("ok"));
 			}
 			if(userVO.getUno() != commentVO.getUno())

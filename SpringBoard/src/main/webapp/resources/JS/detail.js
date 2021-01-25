@@ -1,5 +1,5 @@
 let uno = 0;
-	let nowPage = 1;	
+let nowPage = 1;	
 	//화면 로딩시 댓글 목록 불러오기
 $(document).ready(function()
 {
@@ -33,6 +33,34 @@ function cloginCheck()
         }
     });
 }
+//댓글 답글 작성 로그인 체크 및 작성창  불러오기
+function anloginCheck(cno,uno)
+{
+	$.ajax
+    ({
+        url		 : "/loginCheck",
+        dataType : "json",
+        success: function(data)
+        {
+            console.log(data);
+			if(data.check == "loginno")
+			{
+				if(confirm("로그인이 필요한 서비스 입니다. 로그인 하시겠습니까?"))
+				{
+					location.href = "/login"
+				}
+			}
+			if(data.check == "loginok")
+			{
+				canswer(cno,uno);
+			}	
+        },
+        error: function(xhr, status, error) 
+        {
+            console.log(error);
+        }
+    });
+}
 //답글 쓰기 로그인 여부 체크
 function bloginCheck()
 {
@@ -43,7 +71,6 @@ function bloginCheck()
         success: function(data)
         {
             console.log(data);
-			
 			if(data.check == "loginno")
 			{
 				if(confirm("로그인이 필요한 서비스 입니다. 로그인 하시겠습니까?"))
@@ -90,18 +117,37 @@ function commentlist()
 			if(data.check == "yes")
 			{
 				$("#nocoment").html("");
+				
 
 				$.each(data.list, function(index, item)
 				{
-					let str =	"";
+					let str =  '';
+						str += '<tbody id="cbody'+item.cno+'">';
 						str += '<tr>';
-						str += '<td></td>';
-						str += '<td align="left" colspan="3" style="border-top: 1px solid black;">'+item.cwriter+'</td>';
+						str += '<th></th>';
+						if(item.grouplayer == 0)
+						{
+							str += '<td align="left" colspan="3" style="border-top: 1px solid black;">'+item.cwriter+'</td>';
+						}
+						if(item.grouplayer == 1)
+						{
+							str += '<th></th>';
+							str += '<td align="left" colspan="3" style="border-top: 1px solid black;">'+item.cwriter+'</td>';
+						}
+						
 						str += '</tr>';
 						str += '<tr>';
 						str += '<td></td>';
-						str += '<td align="left" colspan="3" id="ctext'+item.cno+'" class="ctext">';
-						str += '<textarea rows="7" cols="50" name="ctext" id="ctext" class="cta" disabled="disabled">'
+						if(item.grouplayer == 0)
+						{
+							str += '<td align="left" colspan="3" id="ctext'+item.cno+'" class="ctext">';
+						}
+						if(item.grouplayer == 1)
+						{
+							str += '<th>|_______</th>';
+							str += '<td align="left" colspan="2" id="ctext'+item.cno+'" class="ctext">';
+						}
+						str += '<textarea name="ctext" id="ctext" class="cta" disabled="disabled">'
 						str +=	item.ctext
 						str +=	'</textarea>'
 						str += '</td>';
@@ -113,15 +159,20 @@ function commentlist()
 						str += '</td>';
 						str += '</tr>';
 						str += '<tr>';
+						str += '<td></td>';
+						str += '<td align="right" colspan="3" style="border-bottom: 1px solid black;" id="tobutton'+item.cno+'">';
+						if(item.grouplayer == 0)
+						{
+							str += '<input type="button" value="답글" onclick="anloginCheck('+item.cno+','+item.uno+')">';
+						}
 						if(uno == item.uno)
 						{
-							str += '<td></td>';
-							str += '<td align="right" colspan="3" style="border-bottom: 1px solid black;" id="tobutton'+item.cno+'">';
 							str += '<input type="button" value="수정" onclick="cmody('+item.cno+','+item.uno+')">';
-							str += '<input type="button" value="삭제" onclick="cdelete('+item.cno+','+item.uno+')">';
-							str += '</td>';
-							str += '</tr>';
-				}
+							str += '<input type="button" value="삭제" onclick="cdelete('+item.cno+','+item.origino+')">';
+						}
+						str += '</td>';
+						str += '</tr>';
+						str += '</tbody>';
 					$("#comment").append(str);	
 				});
 			}
@@ -137,8 +188,8 @@ function commentlist()
 //댓글 작성 및 불러오기
 function commentwrite()
 {
-    cloginCheck();
-
+ 
+	cloginCheck();
 	$.ajax
     ({
         url   : "/commentwrite",
@@ -148,11 +199,14 @@ function commentwrite()
 			bno		: $("#bno").val(),
 			uno		: $("#uno").val(),
 			cwriter : $("#id").val(),
-			ctext 	: $("#ctext").val() 
+			ctext 	: $("#ctext").val()
+			
+			
 		},
         success: function(data)
         {
             commentreset();
+			
         },
         error: function(xhr, status, error)
         {
@@ -160,6 +214,64 @@ function commentwrite()
         }
     });
 	
+}
+
+//댓글 답글창 불러오기
+function canswer(cno,uno)
+{
+	alert(cno);
+	$("#cno").val(cno);
+	$("#origino").val(cno);
+	let str = '';
+	str += '<tr>';
+	str += '<th></th>';
+	str += '<td align="left" colspan="3" id="ctextan'+cno+'" class="ctextan">';
+	str += '<textarea rows="7" name="ctext" id="ctextan" class="ctaan">';
+	str +=	'</textarea>'
+	str += '</td>';
+	str += '</tr>';
+	str += '<tr>';
+	str += '<td></td>';
+	str += '<td align="right" colspan="3" style="border-bottom: 1px solid black;" id="tobutton'+cno+'">';
+	str += '<input type="button" value="등록" onclick="canswerok('+cno+','+uno+')">';
+	str += '<input type="button" value="취소" onclick="canswerno('+cno+')">';
+	str += '</td>';
+	str += '</tr>';
+	$("#cbody"+cno+"").append(str);
+	
+}
+
+//댓글 답글 작성 및 불러오기
+function canswerok()
+{
+	$.ajax
+	    ({
+	        url   : "/commentwrite",
+	        type  : "post",
+	        data  : 
+			{ 
+				bno		: $("#bno").val(),
+				uno		: $("#uno").val(),
+				cno		: $("#cno").val(),
+				cwriter : $("#id").val(),
+				ctext 	: $("#ctextan").val() 
+			},
+	        success: function(data)
+	        {
+	            commentreset();
+				
+	        },
+	        error: function(xhr, status, error)
+	        {
+	            console.log(error);
+	        }
+	    });
+}
+
+//댓글 답글 취소
+function canswerno()
+{
+	commentreset();
 }
 
 //댓글 수정
@@ -252,7 +364,7 @@ function cmodyno(cno)
 }
 
 //댓글 삭제
-function cdelete(cno)
+function cdelete(cno,origino)
 {
 	if(confirm("댓글을 삭제하시겠습니까?"))
 	{
@@ -283,6 +395,8 @@ function cdelete(cno)
 		    });
 	}
 }
+
+
 
 //댓글 페이징 숫자 목록 불러오기
 function commentpaginglist()
@@ -382,3 +496,4 @@ $(document).on("click","#delete",function()
 		location.href="/board/delete?bno="+$("#bno").val()+"";
 	}
 });
+

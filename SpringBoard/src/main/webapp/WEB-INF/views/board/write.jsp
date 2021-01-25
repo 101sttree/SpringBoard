@@ -7,12 +7,30 @@
 <head>
 <meta charset="UTF-8">
 <title>글 작성</title>
+<style type="text/css">
+	img
+	{
+		width: 150px;
+		height: 150px;
+	}
+	table 
+	{
+		margin: auto;
+		margin-top: 10%;
+		width: 1000px;
+	}
+	textarea
+	{
+		resize: none;
+		width: 98%;
+	}
+</style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/resources/JS/write.js"></script>
 </head>
 <body>
 	<form 		action="/board/write" method="post" name="writefrm" id="writefrm"
-				enctype="multipart/form-data">
+				enctype="multipart/form-data" >
 		<input 	type="hidden" value="${user.uno }" 	name="uno">
 		<input 	type="hidden" value="${id }" 		name="writer">
 		<c:if test="${vo ne null}">
@@ -21,7 +39,7 @@
 			<input 	type="hidden" value="${vo.groupord}" 	name="groupord">
 			<input 	type="hidden" value="${vo.grouplayer}" 	name="grouplayer">
 		</c:if>
-		<table 	style="margin: auto; margin-top: 15%;">
+		<table>
 			<tr>
 				<th>작성자</th>
 				<td>${id }</td>
@@ -43,7 +61,8 @@
 			<tr>
 				<th>첨부파일</th>
 				<td colspan="3">
-					<input type="file" name="file">
+					<input type="file" name="file" id="file"><br>
+					<img id="img">
 				</td>
 			</tr>
 			<tr>
