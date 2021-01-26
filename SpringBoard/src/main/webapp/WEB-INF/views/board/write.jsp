@@ -24,11 +24,16 @@
 		resize: none;
 		width: 98%;
 	}
+	div
+	{
+		text-align: center;
+	}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/resources/JS/write.js"></script>
 </head>
 <body>
+<%@ include file="../header.jsp" %>
 	<form 		action="/board/write" method="post" name="writefrm" id="writefrm"
 				enctype="multipart/form-data" >
 		<input 	type="hidden" value="${user.uno }" 	name="uno">

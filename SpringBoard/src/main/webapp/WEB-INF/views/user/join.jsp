@@ -7,18 +7,25 @@
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/resources/JS/user.js"></script>
+<style type="text/css">
+	div
+	{
+		text-align: center;
+	}
+</style>
 </head>
 <body>
+<%@ include file="../header.jsp" %>
 	<form id="joinfrm" name="joinfrm" method="post" action="/joinok">
 		<table style="height: 40%; margin: auto; margin-top: 20%;">
 			<tr>
 				<td>아이디 :</td>
-				<td><input type="text" name="id" id="id"></td>
+				<td><input type="text" name="id" id="jid"></td>
 				<td><input type="button" value="중복확인" onclick="idck()"></td>
 			</tr>
 			<tr>
 				<td>비밀번호 :</td>
-				<td colspan="2"><input type="password" name="pw" id="pw"></td>
+				<td colspan="2"><input type="password" name="pw" id="jpw"></td>
 			</tr>
 			<tr>
 				<td>비밀번호확인 :</td>

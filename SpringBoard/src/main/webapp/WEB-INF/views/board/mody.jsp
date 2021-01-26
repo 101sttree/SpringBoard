@@ -22,11 +22,16 @@
 		resize: none;
 		width: 98%;
 	}
+	div
+	{
+		text-align: center;
+	}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/resources/JS/write.js"></script>
 </head>
 <body>
+<%@ include file="../header.jsp" %>
 	<form action="/board/mody" method="post" name="frm">
 		<input type="hidden" name="bno" value="${vo.bno }">
 		<table style="margin: auto; margin-top: 15%;">

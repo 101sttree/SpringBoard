@@ -120,6 +120,7 @@ public class boardController
 		Cookie[] 	reqCookie 	= request.getCookies();
 		//null값 비교용 쿠키
 		Cookie 		nullCookie 	= null;
+		
 		//기존 쿠키를 불러옴
 		//로그인이 되있는 경우 유저 번호와 게시글 번호로 된 쿠키를 가져옴
 		if(reqCookie != null && reqCookie.length > 0 && userVO != null)
@@ -144,7 +145,7 @@ public class boardController
 			}
 		}
 		
-		//로그인 된 상태일 경우 게시물 번호와 유저 번호가 이름에 들어간 쿠키를 만든다.
+		//로그인 상태이고 조회한 적이 없는 경우
 		if(userVO != null && nullCookie == null)
 		{
 			Cookie cookie = new Cookie("cookie"+ userVO.getUno() + bno, "cookie"+ userVO.getUno() + bno);
@@ -161,7 +162,7 @@ public class boardController
 				System.out.println("조회수 증가 실패");
 			}
 		}
-		//로그인되지 않은 상태일 경우 게시물 번호만 이름에 들어간 쿠키를 만든다.
+		//로그인되지 않은상태로 조회한 적이 없는 경우
 		if(userVO == null && nullCookie == null)
 		{
 			Cookie cookie = new Cookie("cookie" + bno, "cookie" + bno);
@@ -197,15 +198,15 @@ public class boardController
 		ModelAndView mv
 	)
 	{
+		//파일 정보를 담는다.
 		String fileName = (String) params.get("fileName");
 		String fullPath = UPLOAD_PATH + "/" + fileName;
 		File file = new File(fullPath);
-		//해당 경로에 있는 파일의 정보를 담는다 = new File(경로)
 		
+		
+		//해당 뷰로 파일 정보를 보낸다.
 		mv.setViewName("downloadView");
-		//해당 뷰로 모델에 정보를 담아 보낸다.
 		mv.addObject("downloadFile", file);
-		//뷰로 보낼 정보를 객체에 담는다.
 		return mv;
 	}
 	
@@ -220,11 +221,8 @@ public class boardController
 		//화면에서 받아온 파일을 가지고 있는 객체이다.
 	) 
 	{
-		
-		
 	    try 
 	    {
-	    	
 			if(vo.getBno() > 0)
 			//답글 작성일 경우
 			{	
@@ -238,8 +236,6 @@ public class boardController
 					//부모글의 답글이기 때문에 층수 + 1
 					vo.setGrouplayer(vo.getGrouplayer() + 1);
 					System.out.println("답글의 답글" + vo.toString());
-					
-					
 				}
 				//원글의 답글
 				if(vo.getGrouplayer() == 0)
@@ -251,44 +247,43 @@ public class boardController
 					//원글의 답글이기 때문에 층수 1로 설정
 					vo.setGrouplayer(1);
 					System.out.println("원글의 답글" + vo.toString());
-					
-					
 				}
-				
-				
 			}
-		 
-			  //일반 글 작성일 경우
+			//일반 글 작성일 경우
 			int 		write 		= mapper.boardwrite(vo);
+			
+			//일반 글 생성시 글의 그룹번호(origino)를 글번호로 설정
 			BoardVO 	boardlast 	= mapper.boardlast(); 
 			if(vo.getOrigino() == 0)
 			{
 				mapper.boardoriup(boardlast);
 			}
 			
-			
-				  MultipartFile mf = mtfRequest.getFile("file");
-			  
-				  if(mf != null) 
-				  { 
-					  //파일 정보 추출 및 입력 
-				  String 	originFileName = mf.getOriginalFilename(); 
-				  long 		fileSize 	= mf.getSize(); 
-				  String 	safeFile 	= UPLOAD_PATH + "\\" + originFileName; 
-				  FileVO 	fileVO 		= new FileVO();
-				  
-				  fileVO. setBno(boardlast.getBno());
-				  fileVO. setUno(vo.getUno());
-				  fileVO. setFsize(mf.getSize());
-				  fileVO. setFname(mf.getOriginalFilename());
-				  fileVO. setPath(UPLOAD_PATH); 
-				  int index = originFileName.lastIndexOf('.'); String
-				  hwak = originFileName.substring(index); 
-				  fileVO. setEx(hwak);
-				  
-				  mf.transferTo(new File(safeFile)); 
-				  int fileinsert = fmapper.fileinsert(fileVO); 
-			  }
+			//글 작성시 등록된 파일 정보를 담은 객체 생성
+			MultipartFile mf = mtfRequest.getFile("file");
+			if(mf != null) 
+			{ 
+				//파일 정보 추출 및 입력 
+				String 	originFileName 	= mf.getOriginalFilename(); 
+				long 	fileSize 		= mf.getSize(); 
+				String 	safeFile 		= UPLOAD_PATH + "\\" + originFileName; 
+				FileVO 	fileVO 			= new FileVO();
+				
+				//파일 VO 객체에 파일의 정보를 담는다.
+				fileVO. setBno(boardlast.getBno());
+				fileVO. setUno(vo.getUno());
+				fileVO. setFsize(mf.getSize());
+				fileVO. setFname(mf.getOriginalFilename());
+				fileVO. setPath(UPLOAD_PATH); 
+				int index = originFileName.lastIndexOf('.'); String
+				hwak = originFileName.substring(index); 
+				fileVO. setEx(hwak);
+				
+				//실제 경로에 파일 생성
+				mf.transferTo(new File(safeFile));
+				//DB에 파일 정보 저장
+				int fileinsert = fmapper.fileinsert(fileVO); 
+			}
 			
 		  } 
 		  catch (IllegalStateException e) 
