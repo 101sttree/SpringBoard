@@ -52,8 +52,10 @@ public class boardController
 	 * private static final String UPLOAD_PATH =
 	 * "C:\\Users\\hyosin\\Documents\\GitHub\\SpringBoard\\SpringBoard\\src\\main\\webapp\\resources\\file";
 	 */
-	
-	//메인화면, 글 불러오기, 페이징 처리
+//=====================================================================================
+//글 불러오기
+//=====================================================================================	
+	  
 	@GetMapping(value = "/")
 	public String boardlist
 	(
@@ -101,8 +103,10 @@ public class boardController
 		
 		return "main";
 	}
+//=====================================================================================
+//글 상세 보기
+//=====================================================================================	
 	
-	//글 상세 보기
 	@GetMapping(value = "/board/detail")
 	public ModelAndView detail
 	(
@@ -189,8 +193,10 @@ public class boardController
 		return mv;
 	}
 	
+//=====================================================================================
+//파일 다운로드 클래스 연동 컨트롤러
+//=====================================================================================		
 	
-	//파일 다운로드 클래스 연동 컨트롤러
 	@RequestMapping("/common/download")
 	public ModelAndView download
 	(
@@ -210,8 +216,9 @@ public class boardController
 		return mv;
 	}
 	
-	
-	//글 작성
+//=====================================================================================
+//글 작성
+//=====================================================================================		
 	@PostMapping(value = "/board/write")
 	public String boardwrite
 	(
@@ -251,14 +258,12 @@ public class boardController
 			}
 			//일반 글 작성일 경우
 			int 		write 		= mapper.boardwrite(vo);
-			
 			//일반 글 생성시 글의 그룹번호(origino)를 글번호로 설정
 			BoardVO 	boardlast 	= mapper.boardlast(); 
 			if(vo.getOrigino() == 0)
 			{
 				mapper.boardoriup(boardlast);
 			}
-			
 			//글 작성시 등록된 파일 정보를 담은 객체 생성
 			MultipartFile mf = mtfRequest.getFile("file");
 			if(mf != null) 
@@ -268,23 +273,20 @@ public class boardController
 				long 	fileSize 		= mf.getSize(); 
 				String 	safeFile 		= UPLOAD_PATH + "\\" + originFileName; 
 				FileVO 	fileVO 			= new FileVO();
-				
 				//파일 VO 객체에 파일의 정보를 담는다.
 				fileVO. setBno(boardlast.getBno());
 				fileVO. setUno(vo.getUno());
 				fileVO. setFsize(mf.getSize());
 				fileVO. setFname(mf.getOriginalFilename());
 				fileVO. setPath(UPLOAD_PATH); 
-				int index = originFileName.lastIndexOf('.'); String
-				hwak = originFileName.substring(index); 
+				int index = originFileName.lastIndexOf('.');
+				String hwak = originFileName.substring(index); 
 				fileVO. setEx(hwak);
-				
 				//실제 경로에 파일 생성
 				mf.transferTo(new File(safeFile));
 				//DB에 파일 정보 저장
 				int fileinsert = fmapper.fileinsert(fileVO); 
 			}
-			
 		  } 
 		  catch (IllegalStateException e) 
 		  {
@@ -294,32 +296,53 @@ public class boardController
 		  {
 			  System.out.println(e);
 		  }
-		 
 		return "redirect:/";
 	}
 	
-	
-	
-	
-	//글 삭제
+//=====================================================================================
+//글 삭제
+//=====================================================================================		
 	@GetMapping(value = "/board/delete")
 	public String boarddelete(Model model, int bno) {
 		
-		int fdelet 	= fmapper.filedelete(bno);
-		int cdelete = cmapper.commentdelete(bno);
-		int delete 	= mapper.boarddelete(bno);
+		
+		//해당 글에 답글이 있는지 확인
+		BoardVO boardinfoan = mapper.boarddetailan(bno);
+		
+		
+		//답글이 달린 글 삭제
+		//본인에게 달린 답글과 답글들의 파일 밑 댓글 삭제
+		if(boardinfoan != null)
+		{
+			int filedeleteori 	= fmapper.filedeleteori(bno);
+			int cdelete 		= cmapper.commentdelete(bno);
+			int boarddeleteori 	= mapper.boarddeleteori(bno);
+		}
+		
+		//답글이 없는 글 삭제
+		if(boardinfoan == null)
+		{
+			int fdelet 	= fmapper.filedelete(bno);
+			int cdelete = cmapper.commentdelete(bno);
+			int delete 	= mapper.boarddelete(bno);
+		}
+		
 		return "redirect:/";
 	}
+//=====================================================================================
+//글 수정 화면 이동
+//=====================================================================================	
 	
-	//글 수정 화면 이동
 	@GetMapping(value = "/mody")
 	public String mody(Model model, int bno) {
 		BoardVO vo = mapper.boarddetail(bno);
 		model.addAttribute("vo", vo);
 		return "board/mody";
 	}
+//=====================================================================================
+//글 수정
+//=====================================================================================	
 	
-	//글 수정
 	@PostMapping(value = "/board/mody")
 	public String boardmody(Model model, BoardVO vo) {
 		int mody = mapper.boardmody(vo);

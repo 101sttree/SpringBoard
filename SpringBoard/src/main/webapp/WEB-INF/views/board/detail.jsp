@@ -51,14 +51,14 @@
 <body>
 <%@ include file="../header.jsp" %>
 	<form id="detailform" action="/anwritego" method="get">
-		<input type="hidden" id="bno" 	 name="bno" 	value="${vo.bno}">
-		<input type="hidden" id="uno" 	 name="uno" 	value="${user.uno}">
-		<input type="hidden" id="cno" 	 name="cno" 	value="">
-		<input type="hidden" id="id"  	 name="id" 		value="${user.id}">
-		<input type="hidden" id="fname"  name="fname" 	value="${fvo.fname}">
-		<input type="hidden" value="${vo.origino}" 		name="origino" id ="origino">
-		<input type="hidden" value="${vo.groupord}" 	name="groupord">
-		<input type="hidden" value="${vo.grouplayer}" 	name="grouplayer">
+		<input type="hidden" id="bno" 	 	name="bno" 		  value="${vo.bno}">
+		<input type="hidden" id="uno" 	 	name="uno" 		  value="${user.uno}">
+		<input type="hidden" id="cno" 	 	name="cno" 		  value="">
+		<input type="hidden" id="id"  	 	name="id" 		  value="${user.id}">
+		<input type="hidden" id="fname"  	name="fname" 	  value="${fvo.fname}">
+		<input type="hidden" id="origino"	name="origino" 	  value="${vo.origino}" >
+		<input type="hidden" id="groupord"	name="groupord"   value="${vo.groupord}" >
+		<input type="hidden" id="grouplayer"name="grouplayer" value="${vo.grouplayer}" >
 		<table id="tb">
 			
 			<tr>

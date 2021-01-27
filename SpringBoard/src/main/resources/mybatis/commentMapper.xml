@@ -81,15 +81,6 @@
 		where cno = #{cno}
 	</update>
 	
-	<update id="commentanup" parameterType="CommentVO">
-		update 
-		commenttb 
-		set 
-		groupord = groupord + 1 
-		where 
-		origino = #{origino} 
-		and groupord > #{groupord}
-	</update>
 	<update id="commentoriup" parameterType="CommentVO">
 		update commenttb
 		set 

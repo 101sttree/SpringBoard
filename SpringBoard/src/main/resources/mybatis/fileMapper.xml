@@ -28,4 +28,13 @@
 		delete from filetb
 		where bno = #{bno}
 	</delete>
+	
+	<delete id="filedeleteori" parameterType="int">
+		delete from filetb
+		where bno in
+		(
+			select bno from boardtb
+		    where origino = #{bno}
+		);
+	</delete>
 </mapper>

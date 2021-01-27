@@ -19,7 +19,6 @@
 					and title like concat('%',#{searchText},'%')
 					or btext like concat('%',#{searchText},'%')
 				</if>
-				
 			</if>
 		</trim>
 	</select>
@@ -82,10 +81,20 @@
 		select * from boardtb
 		where bno = #{bno}
 	</select>
+	<select id="boarddetailan" resultType="BoardVO" parameterType="int">
+		select * from boardtb
+		where origino = #{origino}
+		and groupord = 1
+	</select>
 	
 	<delete id="boarddelete" parameterType="int">
 		delete from boardtb
 		where bno = #{bno}
+	</delete>
+	
+	<delete id="boarddeleteori" parameterType="int">
+		delete from boardtb
+		where origino = #{bno}
 	</delete>
 	
 	<update id="boardmody" parameterType="BoardVO">

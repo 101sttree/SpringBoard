@@ -64,6 +64,13 @@ function anloginCheck(cno,uno)
 //답글 쓰기 로그인 여부 체크
 function bloginCheck()
 {
+	
+	if($("#grouplayer").val() == 3)
+	{
+		alert("더 이상 답글을 작성할 수 없습니다.");
+		return;
+	}
+	
 	$.ajax
     ({
         url		 : "/loginCheck",
@@ -220,8 +227,7 @@ function commentwrite()
 function canswer(cno,uno)
 {
 	alert(cno);
-	$("#cno").val(cno);
-	$("#origino").val(cno);
+	
 	let str = '';
 	str += '<tr>';
 	str += '<th></th>';
@@ -238,6 +244,8 @@ function canswer(cno,uno)
 	str += '</td>';
 	str += '</tr>';
 	$("#cbody"+cno+"").append(str);
+	$("#cno").val(cno);
+	$("#origino").val(cno);
 	
 }
 

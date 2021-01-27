@@ -24,16 +24,20 @@ public class userController
 {
 	@Autowired
 	userMapper mapper;
+//=====================================================================================
+//회원가입
+//=====================================================================================	
 	
-	//회원가입
 	@PostMapping(value = "/joinok")
 	public String userjoin(Model model, UserVO vo)
 	{
 		int join = mapper.userjoin(vo);
 		return "redirect:/login";
 	}
+//=====================================================================================
+//아이디 중복확인
+//=====================================================================================	
 	
-	//아이디 중복 확인
 	@PostMapping(value = "/idck")
 	public void idck
 	(
@@ -60,7 +64,6 @@ public class userController
 			{
 				jObject.add("result", gson.toJsonTree("no"));
 			}
-			
 		} 
 		catch (Exception e) 
 		{
@@ -72,10 +75,11 @@ public class userController
 		{
 			pw.write(gson.toJson(jObject));
 		}
-		
 	}
+//=====================================================================================
+//로그인
+//=====================================================================================	
 	
-	//로그인
 	@PostMapping(value = "/login")
 	public void userinfo
 	(
@@ -85,9 +89,9 @@ public class userController
 		String id,
 		String Pw
 			
-	) throws Exception
+	) 
+	throws Exception
 	{
-		
 		PrintWriter pw 		= response.getWriter();
 		Gson 		gson 	= new GsonBuilder().setPrettyPrinting().create();
 		JsonObject 	jObject 		= new JsonObject();
@@ -106,7 +110,6 @@ public class userController
 				}
 				if (!login.getPw().equals(Pw))
 				{
-					
 					jObject.add("result", gson.toJsonTree("pwfail"));
 				}
 			}
@@ -126,11 +129,10 @@ public class userController
 		{
 			pw.write(gson.toJson(jObject));
 		}
-		
-		
-		
 	}
-	
+//=====================================================================================
+//로그아웃
+//=====================================================================================		
 	@GetMapping(value = "/logout")
 	public String logout(HttpServletRequest request)
 	{

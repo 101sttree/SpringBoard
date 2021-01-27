@@ -27,8 +27,10 @@ public class commentController
 {
 	@Inject
 	commentMapper mapper;
+//=====================================================================================	
+//댓글 불러오기
+//=====================================================================================		
 	
-	//댓글 불러오기
 	@GetMapping(value = "/commentlist")
 	public void commentlist
 	(
@@ -42,7 +44,6 @@ public class commentController
 	)
 	throws Exception
 	{
-		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
 		PrintWriter pWriter = response.getWriter();
 		JsonObject 	jObject = new JsonObject();
@@ -51,7 +52,6 @@ public class commentController
 		
 		try 
 		{
-			
 			int total = mapper.commentcount(commentVO);
 			if (nowPage == null && cntPerPage == null) 
 			{
@@ -95,8 +95,10 @@ public class commentController
 			pWriter.write(gson.toJson(jObject));
 		}
 	}
+//=====================================================================================	
+//댓글 작성	
+//=====================================================================================		
 	
-	//댓글 작성
 	@PostMapping(value = "/commentwrite")
 	public void commentwrite
 	(
@@ -106,35 +108,33 @@ public class commentController
 		HttpServletResponse response	
 	)
 	{
-			System.out.println(commentVO);
-			if(commentVO.getCno() > 0)
-			{	
-				//답글 작성일 경우
-				if(commentVO.getGrouplayer() == 0)
-				{	
-					//현재 작성된 마지막 글의 순서값을 가져온다.
-					CommentVO commentgrdmax = mapper.commentgrdmax(commentVO);
-					System.out.println(commentgrdmax);
-					//새로 작성되는 글의 순서값을 마지막글의 순서값에 + 1 값으로 설정
-					commentVO.setGroupord(commentgrdmax.getGroupord()+1);
-					commentVO.setOrigino(commentgrdmax.getOrigino());
-					//원글의 답글이기 때문에 층수 1로 설정
-					commentVO.setGrouplayer(1);
-					System.out.println("원글의 답글" + commentVO.toString());
-					
-				}
-			}
-			
-			int commentwrite = mapper.commentwrite(commentVO);
-			CommentVO commentlast = mapper.commentlast();
-			
-			if(commentVO.getCno() != commentVO.getOrigino())
-			{
-				mapper.commentoriup(commentlast);
-			}
-	    
+		if(commentVO.getCno() > 0)
+		{	
+			//현재 작성된 마지막 글의 순서값을 가져온다.
+			CommentVO commentgrdmax = mapper.commentgrdmax(commentVO);
+			//새로 작성되는 글의 순서값을 해당 글 그룹의 마지막글의 순서값에 + 1 값으로 설정
+			commentVO.setGroupord(commentgrdmax.getGroupord()+1);
+			//새로 작성되는 글의 그룹값을 해당 글 그룹의 마지막글의 그룹번호와 같게 해줌
+			commentVO.setOrigino(commentgrdmax.getOrigino());
+			//원글의 답글이기 때문에 층수 1로 설정
+			commentVO.setGrouplayer(1);
+		}
+		
+		//댓글 작성 구문
+		int commentwrite = mapper.commentwrite(commentVO);
+		//마지막 댓글의 정보를 얻어옴
+		CommentVO commentlast = mapper.commentlast();
+		//댓글의 그룹번호가 0일경우 즉 답글이 아닌 일반 댓글일 경우
+		if(commentVO.getOrigino() == 0)
+		{
+			//가장 최신 댓글, 즉 본인의 댓글 번호를 그룹 번호로 설정하는 구문
+			mapper.commentoriup(commentlast);
+		}
 	}
-	//댓글 수정
+//=====================================================================================
+//댓글 수정
+//=====================================================================================	
+	
 	@PostMapping(value = "/commentmody")
 	public void commentmody
 	(
@@ -144,8 +144,6 @@ public class commentController
 	)
 	throws Exception
 	{
-		
-		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
 		PrintWriter pWriter = response.getWriter();
 		JsonObject 	jObject = new JsonObject();
@@ -154,7 +152,6 @@ public class commentController
 		UserVO 		userVO 	= (UserVO)session.getAttribute("user");
 		try 
 		{
-			
 			if(userVO.getUno() == commentVO.getUno())
 			{
 				int 		cmody 		= mapper.commentmody(commentVO);
@@ -183,7 +180,10 @@ public class commentController
 		
 		
 	}
-	//댓글 삭제
+//=====================================================================================
+//댓글 삭제
+//=====================================================================================	
+	
 	@PostMapping(value = "/commentdelete")
 	public void commentdeleteone
 	(
@@ -194,7 +194,6 @@ public class commentController
 	throws Exception
 	{
 		
-		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
 		PrintWriter pWriter = response.getWriter();
 		JsonObject 	jObject = new JsonObject();
@@ -214,7 +213,6 @@ public class commentController
 				{
 					int cdeleteori = mapper.commentdeleteori(cno);
 				}
-				
 				jObject.add("check", gson.toJsonTree("ok"));
 			}
 			if(userVO.getUno() != commentVO.getUno())

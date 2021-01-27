@@ -10,6 +10,7 @@ public interface boardMapper
 {
 	public List<BoardVO> boardlist(SearchVO vo);
 	public BoardVO boarddetail(int bno);
+	public BoardVO boarddetailan(int bno);
 	
 	public int boardwrite(BoardVO vo);
 	public int boardcount(SearchVO vo);
@@ -17,6 +18,8 @@ public interface boardMapper
 	public int boardmody(BoardVO vo);
 	//글 삭제
 	public int boarddelete(int bno);
+	//답글 있을경우 답글까지 삭제
+	public int boarddeleteori(int bno);
 	//조회수 증가
 	public int boardhit(int bno);
 	//계층형 구현용

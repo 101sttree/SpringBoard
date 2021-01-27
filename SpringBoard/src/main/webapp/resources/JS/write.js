@@ -15,6 +15,11 @@ function writerok()
 		$("#writefrm").submit();
 	}
 
+
+
+var sel_file;
+
+//file id 태그 값이 변경되면 해당 함수를 실행한다.
 $(document).ready(function()
 {
 	$("#file").on("change", handleImgFileSelect);
@@ -22,9 +27,12 @@ $(document).ready(function()
 
 function handleImgFileSelect(e)
 {
+	//file라는 id를 가진 태그의 이벤트를 객체로 가져와 담는다.
 	var files = e.target.files;
+	//files이라는 객체를 배열로 바꾼다.
 	var filesArr = Array.prototype.slice.call(files);
 	
+	//filesArr배열에 하나씩 접근을 한다.
 	filesArr.forEach(function(f)
 	{
 		if(!f.type.match("image.*"))
@@ -33,7 +41,6 @@ function handleImgFileSelect(e)
 			return;
 		}
 		
-		sel_file = f;
 		
 		var reader = new FileReader();
 		reader.onload = function(e)
