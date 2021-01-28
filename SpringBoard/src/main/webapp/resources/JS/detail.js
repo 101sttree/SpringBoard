@@ -115,17 +115,20 @@ function commentlist()
         success: function(data)
         {
 			
+			console.log(data.user);
+			console.log(data.list);
+			console.log(data.paging);
+			console.log(data.check);
+			
 			user = data.user	
 			if(user != null)
 			{
 				uno = user.uno
 			}
-			
 			if(data.check == "yes")
 			{
 				$("#nocoment").html("");
 				
-
 				$.each(data.list, function(index, item)
 				{
 					let str =  '';
@@ -294,7 +297,6 @@ function cmody(cno,uno)
 //댓글 수정 확인
 function cmodyok(cno,uno)
 {
-	
 	$.ajax
 	    ({
 	        url   : "/commentmody",
@@ -307,7 +309,6 @@ function cmodyok(cno,uno)
 			},
 	        success: function(data)
 	        {
-	            
 				cinfo = data.cinfo;
 				if(data.check == "ok")
 				{
@@ -315,15 +316,11 @@ function cmodyok(cno,uno)
 						str += '<textarea rows="7" cols="50" name="ctext" id="ctext" class="cta" disabled="disabled">';
 						str += cinfo.ctext;
 						str += '</textarea>'
-							
 					$("#ctext"+cinfo.cno+"").html(str);
-						
 					let str2 = '';
 						str2 += '<input type="button" value="수정" onclick="cmody('+cinfo.cno+','+cinfo.uno+')">';
 						str2 += '<input type="button" value="삭제" onclick="cdelete('+cinfo.cno+','+cinfo.uno+')">';
-					
 					$("#tobutton"+cinfo.cno+"").html(str2);
-						
 				}
 	        },
 	        error: function(xhr, status, error)

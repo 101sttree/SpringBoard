@@ -70,14 +70,22 @@
 						<td><a href="/board/detail?bno=${list.bno }">${list.title }</a></td>
 					</c:when>
 					<c:when test="${list.grouplayer eq 1}">
-						<td>&nbsp;&nbsp;ㄴ<a href="/board/detail?bno=${list.bno }">${list.title }</a></td>
+						<td>
+							&nbsp;&nbsp;ㄴ
+							<a href="/board/detail?bno=${list.bno }">${list.title }</a>
+						</td>
 					</c:when>
 					<c:when test="${list.grouplayer eq 2}">
-						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ㄴ<a href="/board/detail?bno=${list.bno }">${list.title }</a></td>
+						<td>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ㄴ
+							<a href="/board/detail?bno=${list.bno }">${list.title }</a>
+						</td>
 					</c:when>
 					<c:when test="${list.grouplayer eq 3}">
-						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						ㄴ<a href="/board/detail?bno=${list.bno }">${list.title }</a></td>
+						<td>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ㄴ
+							<a href="/board/detail?bno=${list.bno }">${list.title }</a>
+						</td>
 					</c:when>
 				</c:choose>
 				

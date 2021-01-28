@@ -1,8 +1,10 @@
 let idcklet = "";
+let idlet = "";
 
 
-var idckr = /^[a-z]+[a-z0-9]{5,19}$/g;
-var pwckr = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+
+var pwckr = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$/;
+
 
 
 
@@ -16,7 +18,6 @@ function join()
 		alert("아이디를 입력하세요");
 		return;
 	}
-	
 	if($("#jpw").val() == "")
 	{
 		alert("비밀번호를 입력하세요");
@@ -32,7 +33,6 @@ function join()
 		alert("비밀번호가 일치하지 않습니다.");
 		return;
 	}
-	
 	if($("#name").val() == "")
 	{
 		alert("이름을 입력하세요");
@@ -49,37 +49,46 @@ function join()
 
 //아이디 중복 확인
 function idck()
-{
-    
-	if( !idckr.test( $("input[name=id]").val())) 
+{	
+	var idckr = /^[A-za-z0-9]{5,15}/g;
+	if(!idckr.test($("#jid").val()))
 	{
-	    alert("아이디는 영문자로 시작하는 6~20자 영문자 또는 숫자이어야 합니다.");
-	    return;
+		var str = "아이디는 영문자와 숫자로 이루어진 5자리에서 15자리를 입력해야 합니다.";
+		$("#idno").html("<tr><td></td><td id='no'>"+str+"</td></td><td></tr>");
+		return;
 	}
-
+	else
+	{
+		$("#idno").html("");
+	}
 	$.ajax
     ({
         url : "/idck",
         type  : "post",
-        data  : { id : $("#id").val() },
+        data  : { id : $("#jid").val() },
         dataType : "json",
         success: function(data)
         {
             console.log(data);
-			if($("#id").val() == "")
+			if($("#jid").val() == "")
 			{
 				alert("아이디를 입력하세요");
 				return;
 			}
+			
 			if(data.result == "no")
 			{
 				alert("중복된 아이디 입니다.");
+				var str = "중복된 아이디입니다.";
+				$("#idno").html("<tr><td></td><td id='no'>"+str+"</td></td><td></tr>");
+				return;
 			}
 			if(data.result == "ok")
 			{
-				alert("사용 가능한 아이디입니다.");
+				var str = "사용 가능한 아이디 입니다.";
+				$("#idno").html("<tr><td></td><td id='no'>"+str+"</td></td><td></tr>");
 				idcklet = "ok";
-				$('#pw').focus();
+				//$('#jpw').focus();
 			}
         },
         error: function(xhr, status, error)
@@ -88,27 +97,38 @@ function idck()
         }
     });
 }
+
 $(document).ready(function()
 {
+	
 	//비밀번호 정규식 검사
 	$('#jpw').blur(function() 
 	{
-		if(!pwckr.test($("#pw").val()))
+		if(!pwckr.test($("#jpw").val()))
 		{
-			alert("비밀번호는 특수문자와 숫자를 포함한 8~15자리로 이루어져야 합니다.");
+			var str = "비밀번호는 영문, 숫자, 특수문자를 포함한 8자리 이상이여야 합니다.";
+			$("#pwno").html("<tr><td></td><td id='no'>"+str+"</td></td><td></tr>");
 		}
-		
+		if(pwckr.test($("#jpw").val()))
+		{
+			var str = "비밀번호는 영문, 숫자, 특수문자를 포함한 8자리 이상이여야 합니다.";
+			$("#pwno").html("");
+		} 
 	});
 
 	//비밀번호 확인 검사 
 	$('#pwck').blur(function() 
 	{
-		
-		if($("#pwck").val() != $("#pw").val())
+		if($("#pwck").val() != $("#jpw").val())
 		{
-			alert("비밀번호가 일치하지 않습니다.");
+			var str = "비밀번호가 일치하지 않습니다.";
+			$("#pwckno").html("<tr><td></td><td id='no'>"+str+"</td></td><td></tr>");
 		}
-		
+		if($("#pwck").val() == $("#jpw").val())
+		{
+			var str = "비밀번호가 일치하지 않습니다.";
+			$("#pwckno").html("");
+		}
 	});
 });
 

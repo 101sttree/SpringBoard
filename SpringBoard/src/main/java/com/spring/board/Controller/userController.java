@@ -2,6 +2,7 @@ package com.spring.board.Controller;
 
 import java.io.PrintWriter;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,7 +23,7 @@ import com.spring.board.VO.UserVO;
 @Controller
 public class userController 
 {
-	@Autowired
+	@Inject
 	userMapper mapper;
 //=====================================================================================
 //회원가입

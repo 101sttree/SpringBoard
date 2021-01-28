@@ -111,6 +111,7 @@
 			hit = hit + 1
 			where bno = #{bno}
 	</update>
+	
 	<update id="boardanup" parameterType="BoardVO">
 		update 
 		boardtb 

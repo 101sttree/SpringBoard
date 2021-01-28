@@ -12,6 +12,14 @@
 	{
 		text-align: center;
 	}
+	#no
+	{
+		width: 150px;
+	}
+	#no
+	{
+		color: red;
+	}
 </style>
 </head>
 <body>
@@ -19,21 +27,30 @@
 	<form id="joinfrm" name="joinfrm" method="post" action="/joinok">
 		<table style="height: 40%; margin: auto; margin-top: 20%;">
 			<tr>
-				<td>아이디 :</td>
-				<td><input type="text" name="id" id="jid"></td>
-				<td><input type="button" value="중복확인" onclick="idck()"></td>
+				<td style="width: 110px;">아이디 :</td>
+				<td style="width: 150px;"><input type="text" name="id" id="jid"></td>
+				<td style="width: 90px;"><input type="button" value="중복확인" onclick="idck()"></td>
 			</tr>
+			<tbody id="idno">
+			</tbody>
 			<tr>
 				<td>비밀번호 :</td>
-				<td colspan="2"><input type="password" name="pw" id="jpw"></td>
+				<td><input type="password" name="pw" id="jpw"></td>
+				<td></td>
 			</tr>
+			<tbody id="pwno">
+			</tbody>
 			<tr>
 				<td>비밀번호확인 :</td>
-				<td colspan="2"><input type="password" name="pwck" id="pwck"></td>
+				<td><input type="password" name="pwck" id="pwck"></td>
+				<td></td>
 			</tr>
+			<tbody id="pwckno">
+			</tbody>
 			<tr>
 				<td>이름 :</td>
-				<td colspan="2"><input type="text" name="name" id="name"></td>
+				<td><input type="text" name="name" id="name"></td>
+				<td></td>
 			</tr>
 			<tr>
 				<td colspan="3" align="center">

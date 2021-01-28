@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,11 +38,11 @@ import com.spring.board.VO.UserVO;
 public class boardController
 
 {
-	@Autowired
+	@Inject	
 	boardMapper mapper;
-	@Autowired
+	@Inject
 	commentMapper cmapper;
-	@Autowired
+	@Inject
 	fileMapper fmapper;
 	
 	
@@ -70,7 +71,6 @@ public class boardController
 		String searchText
 	) 
 	{
-		
 		searchVO.setSearchType(searchType);
 		searchVO.setSearchText(searchText); 
 		int total = mapper.boardcount(searchVO);
@@ -90,11 +90,10 @@ public class boardController
 			cntPerPage = "10";
 		}
 		
-		pagingVO = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		pagingVO = new PagingVO(total, 	Integer.parseInt(nowPage),
+										Integer.parseInt(cntPerPage));
 		
 		searchVO.setStart(pagingVO.getStart());
-		searchVO.setEnd(5);
-		
 		
 		List<BoardVO> list = mapper.boardlist(searchVO);
 		
@@ -120,13 +119,9 @@ public class boardController
 	) {
 		
 		UserVO 		userVO 		= (UserVO)session.getAttribute("user");
-		//기존에 존재하던 쿠키 가져옴
 		Cookie[] 	reqCookie 	= request.getCookies();
-		//null값 비교용 쿠키
 		Cookie 		nullCookie 	= null;
 		
-		//기존 쿠키를 불러옴
-		//로그인이 되있는 경우 유저 번호와 게시글 번호로 된 쿠키를 가져옴
 		if(reqCookie != null && reqCookie.length > 0 && userVO != null)
 		{
 			for (int i = 0; i < reqCookie.length; i++) 
@@ -137,7 +132,6 @@ public class boardController
 				}
 			}
 		}
-		//로그인 되지 않은 pc의 경우 게시글 번호로만 된 쿠키를 가져옴
 		if(reqCookie != null && reqCookie.length > 0 && userVO == null)
 		{
 			for (int i = 0; i < reqCookie.length; i++) 
@@ -148,8 +142,6 @@ public class boardController
 				}
 			}
 		}
-		
-		//로그인 상태이고 조회한 적이 없는 경우
 		if(userVO != null && nullCookie == null)
 		{
 			Cookie cookie = new Cookie("cookie"+ userVO.getUno() + bno, "cookie"+ userVO.getUno() + bno);
@@ -166,7 +158,6 @@ public class boardController
 				System.out.println("조회수 증가 실패");
 			}
 		}
-		//로그인되지 않은상태로 조회한 적이 없는 경우
 		if(userVO == null && nullCookie == null)
 		{
 			Cookie cookie = new Cookie("cookie" + bno, "cookie" + bno);
