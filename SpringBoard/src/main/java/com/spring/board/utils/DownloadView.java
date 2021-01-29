@@ -31,7 +31,8 @@ public class DownloadView extends AbstractView {
             String userAgent = request.getHeader("User-Agent");
             if(userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1)
             {
-                fileName = URLEncoder.encode(file.getName(), "utf-8").replaceAll("\\+", "%20");;
+                fileName = URLEncoder.encode
+                		(file.getName(), "utf-8").replaceAll("\\+", "%20");;
             }
             else if(userAgent.indexOf("Chrome") > -1)
             {
@@ -56,8 +57,10 @@ public class DownloadView extends AbstractView {
             }
             response.setContentType(getContentType());
             response.setContentLength((int)file.length());
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
-            response.setHeader("Content-Transfer-Encoding", "binary");
+            response.setHeader
+            ("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
+            response.setHeader
+            ("Content-Transfer-Encoding", "binary");
             
             OutputStream out = response.getOutputStream();
             FileInputStream fis = null;

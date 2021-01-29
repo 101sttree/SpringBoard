@@ -74,6 +74,8 @@ public class boardController
 		searchVO.setSearchType(searchType);
 		searchVO.setSearchText(searchText); 
 		int total = mapper.boardcount(searchVO);
+		System.out.print("");
+		String xString = null;
 		
 		//현재 페이지 및 페이지당 글 갯수 설정
 		if (nowPage == null && cntPerPage == null) 
@@ -144,7 +146,8 @@ public class boardController
 		}
 		if(userVO != null && nullCookie == null)
 		{
-			Cookie cookie = new Cookie("cookie"+ userVO.getUno() + bno, "cookie"+ userVO.getUno() + bno);
+			Cookie cookie = 
+			new Cookie("cookie"+ userVO.getUno() + bno, "cookie"+ userVO.getUno() + bno);
 			cookie.setMaxAge(60*60*12);
 			response.addCookie(cookie);
 			int boardhit = mapper.boardhit(bno);
