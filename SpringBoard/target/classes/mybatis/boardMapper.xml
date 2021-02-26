@@ -134,11 +134,7 @@
 		origino = #{origino}
 		order by groupord desc
 		limit 1
-	</select>
-	
-	
-	
-	
+	</select>	
 </mapper>
 
 

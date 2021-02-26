@@ -251,6 +251,9 @@ public class boardController
 				}
 			}
 			//일반 글 작성일 경우
+			/*
+			 * for (int i = 0; i < 50; i++) { int write = mapper.boardwrite(vo); }
+			 */
 			int 		write 		= mapper.boardwrite(vo);
 			//일반 글 생성시 글의 그룹번호(origino)를 글번호로 설정
 			BoardVO 	boardlast 	= mapper.boardlast(); 

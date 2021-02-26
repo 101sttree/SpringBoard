@@ -107,7 +107,7 @@ $(document).ready(function()
 		if(!pwckr.test($("#jpw").val()))
 		{
 			var str = "비밀번호는 영문, 숫자, 특수문자를 포함한 8자리 이상이여야 합니다.";
-			$("#pwno").html("<tr><td></td><td id='no'>"+str+"</td></td><td></tr>");
+			$("#pwno").html("<tr><td id='no' colspan='2'>"+str+"</td><td></td></tr>");
 		}
 		if(pwckr.test($("#jpw").val()))
 		{
@@ -122,7 +122,7 @@ $(document).ready(function()
 		if($("#pwck").val() != $("#jpw").val())
 		{
 			var str = "비밀번호가 일치하지 않습니다.";
-			$("#pwckno").html("<tr><td></td><td id='no'>"+str+"</td></td><td></tr>");
+			$("#pwckno").html("<tr><td id='no' colspan='2'>"+str+"</td><td></td></tr>");
 		}
 		if($("#pwck").val() == $("#jpw").val())
 		{
