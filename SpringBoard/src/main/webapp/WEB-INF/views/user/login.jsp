@@ -19,7 +19,7 @@
 <body>
 
 <%@ include file="../header.jsp" %>
-<form id="loginfrm" name="loginfrm">
+<form id="loginfrm" name="loginfrm" method="post">
 	<table style="height: 40%; margin: auto; margin-top: 10%; width: 500px;" >
 		<tr>
 			<td colspan="3" align="center">

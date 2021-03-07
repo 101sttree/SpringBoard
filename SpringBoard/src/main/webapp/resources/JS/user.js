@@ -1,13 +1,7 @@
 let idcklet = "";
 let idlet = "";
 
-
-
 var pwckr = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$/;
-
-
-
-
 
 //회원가입 유효성 검사
 function join()
@@ -28,7 +22,7 @@ function join()
 		alert("비밀번호 확인을 입력하십시오.");
 		return;
 	}
-	if($("#pwck").val() != $("#pw").val())
+	if($("#pwck").val() != $("#jpw").val())
 	{
 		alert("비밀번호가 일치하지 않습니다.");
 		return;
@@ -44,6 +38,7 @@ function join()
 		return;
 	}	
 	
+	alert("회원가입을 축하드립니다!");
 	$("#joinfrm").submit();
 }
 
@@ -54,7 +49,7 @@ function idck()
 	if(!idckr.test($("#jid").val()))
 	{
 		var str = "아이디는 영문자와 숫자로 이루어진 5자리에서 15자리를 입력해야 합니다.";
-		$("#idno").html("<tr><td></td><td id='no'>"+str+"</td></td><td></tr>");
+		$("#idno").html("<tr><td id='no' colspan='3'>"+str+"</td></td></tr>");
 		return;
 	}
 	else
@@ -80,13 +75,13 @@ function idck()
 			{
 				alert("중복된 아이디 입니다.");
 				var str = "중복된 아이디입니다.";
-				$("#idno").html("<tr><td></td><td id='no'>"+str+"</td></td><td></tr>");
+				$("#idno").html("<tr><td id='no' colspan='3'>"+str+"</td></tr>");
 				return;
 			}
 			if(data.result == "ok")
 			{
 				var str = "사용 가능한 아이디 입니다.";
-				$("#idno").html("<tr><td></td><td id='no'>"+str+"</td></td><td></tr>");
+				$("#idno").html("<tr><td id='no' colspan='3'>"+str+"</td></tr>");
 				idcklet = "ok";
 				//$('#jpw').focus();
 			}
@@ -107,11 +102,11 @@ $(document).ready(function()
 		if(!pwckr.test($("#jpw").val()))
 		{
 			var str = "비밀번호는 영문, 숫자, 특수문자를 포함한 8자리 이상이여야 합니다.";
-			$("#pwno").html("<tr><td id='no' colspan='2'>"+str+"</td><td></td></tr>");
+			$("#pwno").html("<tr><td id='no' colspan='3'>"+str+"</td><td></td></tr>");
 		}
 		if(pwckr.test($("#jpw").val()))
 		{
-			var str = "비밀번호는 영문, 숫자, 특수문자를 포함한 8자리 이상이여야 합니다.";
+			
 			$("#pwno").html("");
 		} 
 	});
@@ -122,11 +117,10 @@ $(document).ready(function()
 		if($("#pwck").val() != $("#jpw").val())
 		{
 			var str = "비밀번호가 일치하지 않습니다.";
-			$("#pwckno").html("<tr><td id='no' colspan='2'>"+str+"</td><td></td></tr>");
+			$("#pwckno").html("<tr><td id='no' colspan='3'>"+str+"</td></tr>");
 		}
 		if($("#pwck").val() == $("#jpw").val())
 		{
-			var str = "비밀번호가 일치하지 않습니다.";
 			$("#pwckno").html("");
 		}
 	});

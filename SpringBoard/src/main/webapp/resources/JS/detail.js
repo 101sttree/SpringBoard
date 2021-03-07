@@ -134,10 +134,9 @@ function commentlist()
 					let str =  '';
 						str += '<tbody id="cbody'+item.cno+'">';
 						str += '<tr>';
-						str += '<th></th>';
 						if(item.grouplayer == 0)
 						{
-							str += '<td align="left" colspan="3" style="border-top: 1px solid black;">'+item.cwriter+'</td>';
+							str += '<td align="left" colspan="4" style="border-top: 1px solid black;">'+item.cwriter+'</td>';
 						}
 						if(item.grouplayer == 1)
 						{
@@ -147,15 +146,14 @@ function commentlist()
 						
 						str += '</tr>';
 						str += '<tr>';
-						str += '<td></td>';
 						if(item.grouplayer == 0)
 						{
-							str += '<td align="left" colspan="3" id="ctext'+item.cno+'" class="ctext">';
+							str += '<td align="left" colspan="4" id="ctext'+item.cno+'" class="ctext">';
 						}
 						if(item.grouplayer == 1)
 						{
 							str += '<th>|_______</th>';
-							str += '<td align="left" colspan="2" id="ctext'+item.cno+'" class="ctext">';
+							str += '<td align="left" colspan="3" id="ctext'+item.cno+'" class="ctext">';
 						}
 						str += '<textarea name="ctext" id="ctext" class="cta" disabled="disabled">'
 						str +=	item.ctext

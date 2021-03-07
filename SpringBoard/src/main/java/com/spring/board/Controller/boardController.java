@@ -46,13 +46,14 @@ public class boardController
 	fileMapper fmapper;
 	
 	
-	  private static final String UPLOAD_PATH =
-	  "C:\\Users\\cube\\Documents\\GitHub\\SpringBoard\\SpringBoard\\src\\main\\webapp\\resources\\file";
-	 
 	/*
 	 * private static final String UPLOAD_PATH =
-	 * "C:\\Users\\hyosin\\Documents\\GitHub\\SpringBoard\\SpringBoard\\src\\main\\webapp\\resources\\file";
+	 * "C:\\Users\\cube\\Documents\\GitHub\\SpringBoard\\SpringBoard\\src\\main\\webapp\\resources\\file";
 	 */
+	
+	  private static final String UPLOAD_PATH =
+	  "C:\\Users\\hyosin\\Documents\\GitHub\\SpringBoard\\SpringBoard\\src\\main\\webapp\\resources\\file";
+	 
 //=====================================================================================
 //글 불러오기
 //=====================================================================================	
@@ -75,7 +76,6 @@ public class boardController
 		searchVO.setSearchText(searchText); 
 		int total = mapper.boardcount(searchVO);
 		System.out.print("");
-		String xString = null;
 		
 		//현재 페이지 및 페이지당 글 갯수 설정
 		if (nowPage == null && cntPerPage == null) 

@@ -12,7 +12,7 @@
 </head>
 <body>
 <%@ include file="./header.jsp" %>
-	<table style="width: 60%; height: 40%; margin: auto; margin-top: 10%;"
+	<table style="width: 60%; height: 40%; margin: auto; margin-top: 5%;"
 	class="table table-striped">
 		<tr>
 			<form action="/" method="get">
@@ -28,7 +28,7 @@
 					<input type="text" class="form-control" placeholder="검색어를 입력하십시오" aria-label="Username" aria-describedby="basic-addon1" name="searchText">
 				</td>
 				<td>
-					<button type="submit" class="btn btn-outline-info">검색</button>
+					<button type="submit" class="btn btn-info">검색</button>
 				</td>
 			</form>
 		</tr>
@@ -76,7 +76,7 @@
 		</c:forEach>
 		<tr>
 			<td align="right" colspan="5">
-			<button type="button" class="btn btn-outline-primary" onclick="loginCheck()">글쓰기</button>	
+			<button type="button" class="btn btn-primary" onclick="loginCheck()">글쓰기</button>	
 		</tr>
 		<tr>
 			<td align="center" colspan="5">

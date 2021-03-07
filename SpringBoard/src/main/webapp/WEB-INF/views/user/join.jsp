@@ -27,28 +27,26 @@
 <body>
 <%@ include file="../header.jsp" %>
 	<form id="joinfrm" name="joinfrm" method="post" action="/joinok">
-		<table style="height: 40%; margin: auto; margin-top: 20%;">
+		<table style="height: 40%; margin: auto; margin-top: 13%; width: 400px; ">
 			<tr>
-				<td colspan="2">
+				<td colspan="3">
 					<div class="input-group mb-3 mt-3">
-  						<div class="input-group-prepend">
-							<span class="input-group-text" id="basic-addon1">아이디</span>
-						</div>	
-							<input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" name="id" id="jid">
+							<input type="text" class="form-control" placeholder="아이디" aria-label="Username" aria-describedby="basic-addon1" name="id" id="jid">
 					</div>	
 				</td>
-				<td><input type="button" value="중복확인" onclick="idck()"></td>
-				
+			</tr>
+			<tr>
+				<td colspan="3" align="left">
+					<!-- <input type="button" value="중복확인" onclick="idck()"> -->
+					<button type="button" class="btn btn-info" onclick="idck()">중복확인</button>
+				</td>
 			</tr>
 			<tbody id="idno">
 			</tbody>
 			<tr>
 				<td colspan="2">
 					<div class="input-group mb-3">
-  						<div class="input-group-prepend">
-							<span class="input-group-text pl-2 pr-2" id="basic-addon1">비밀번호</span>
-						</div>	
-							<input type="password" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" name="pw" id="jpw">
+							<input type="password" class="form-control" placeholder="비밀번호" aria-label="Username" aria-describedby="basic-addon1" name="pw" id="jpw">
 					</div>	
 				</td>
 				<td></td>
@@ -56,12 +54,9 @@
 			<tbody id="pwno">
 			</tbody>
 			<tr>
-				<td colspan="2">
+				<td colspan="3">
 					<div class="input-group mb-3">
-  						<div class="input-group-prepend">
-							<span class="input-group-text" id="basic-addon1">비밀번호확인</span>
-						</div>	
-							<input type="password" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" name="pwck" id="pwck">
+							<input type="password" class="form-control" placeholder="비밀번호 확인" aria-label="Username" aria-describedby="basic-addon1" name="pwck" id="pwck">
 					</div>	
 				</td>
 				<td></td>
@@ -69,20 +64,19 @@
 			<tbody id="pwckno">
 			</tbody>
 			<tr>
-				<td colspan="2">
+				<td colspan="3">
 					<div class="input-group mb-3">
-  						<div class="input-group-prepend">
-							<span class="input-group-text" id="basic-addon1">이름</span>
-						</div>	
-							<input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" name="name" id="name">
+							<input type="text" class="form-control" placeholder="이름" aria-label="Username" aria-describedby="basic-addon1" name="name" id="name">
 					</div>	
 				</td>
 				<td></td>
 			</tr>
 			<tr>
 				<td colspan="3" align="center">
-					<input type="button" value="가입" onclick="join()">
-					<input type="button" value="취소" onclick="location.href='/'">
+					<!-- <input type="button" value="가입" onclick="join()">
+					<input type="button" value="취소" onclick="location.href='/'"> -->
+					<button type="button" class="btn btn-info" onclick="join()">가입</button>
+					<button type="button" class="btn btn-info" onclick="location.href='/'">취소</button>
 				</td>
 			</tr>
 		</table>

@@ -10,12 +10,12 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item active">
         <c:if test="${user eq null}">
-			<button type="button" class="btn btn-outline-success mt-3 mb-3" onclick="location.href='/login'">로그인</button>
+			<button type="button" class="btn btn-success mt-3 mb-3" onclick="location.href='/login'">로그인</button>
 		</c:if>
       </li>
       <li class="nav-item active">
         <c:if test="${user eq null}">
-			<button type="button" class="btn btn-outline-success ml-3 mt-3 mb-3" onclick="location.href='/join'">회원가입</button>
+			<button type="button" class="btn btn-success ml-3 mt-3 mb-3" onclick="location.href='/join'">회원가입</button>
 		</c:if>
       </li>
        <li class="nav-item active">
@@ -25,7 +25,7 @@
       </li>
       <li class="nav-item active">
         <c:if test="${user ne null}">
-			<button type="button" class="btn btn-outline-danger ml-3 mt-3" id="logout">로그아웃</button>			
+			<button type="button" class="btn btn-danger ml-3 mt-3" id="logout">로그아웃</button>			
 		</c:if>
       </li>
      

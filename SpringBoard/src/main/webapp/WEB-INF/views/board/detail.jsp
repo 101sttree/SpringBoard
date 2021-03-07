@@ -18,17 +18,24 @@
 	{
 		border: none;
 		height : 50px;
+		background: #E6E6E6;
 	}
 	
 	textarea
 	{
 		resize: none;
-		
 		width: 100%;
+		background: white;
+		border: 0px;
 	}
 	th
 	{
 		width: 100px;
+		border-bottom: 1px solid black; 
+	}
+	td
+	{
+		border-bottom: 1px solid black;
 	}
 	div
 	{
@@ -37,14 +44,15 @@
 	table 
 	{
 		margin: auto;
-		margin-top: 10%;
-		width: 1000px;
+		margin-top: 5%;
+		width: 900px;
 	}
 	img
 	{
 		width: 150px;
 		height: 150px;
 	}
+	
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/resources/JS/detail.js"></script>
@@ -79,8 +87,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th>내용</th>
-				<td colspan="3">
+				<td colspan="4">
 					<textarea rows="20" disabled="disabled" >${vo.btext}</textarea>
 				</td>
 			</tr>
@@ -95,24 +102,25 @@
 			<tr>
 				<td colspan="4" align="right">
 				<c:if test="${vo.uno == user.uno}">
-					<input type="button" value="수정하기" onclick="location.href='/mody?bno=${vo.bno}'">
+					<button type="button" class="btn btn-primary" onclick="location.href='/mody?bno=${vo.bno}'">수정하기</button>
 				</c:if>
 				<c:if test="${vo.uno == user.uno}">
-					<input type="button" value="삭제하기" id="delete">
+					<button type="button" class="btn btn-danger" id="delete">삭제하기</button>
 				</c:if>
-					<input type="button" value="답글" onclick="bloginCheck()">
-					<input type="button" value="메인으로" onclick="location.href='/'">
+					<button type="button" class="btn btn-primary" onclick="bloginCheck()">답글</button>
+					<button type="button" class="btn btn-info" onclick="location.href='/'">메인으로</button>
 				</td>
 			</tr>
 			<tr>
-				<th>댓글</th>
-				<td colspan="3">
-					<textarea rows="7" placeholder="댓글을 입력하세요" name="ctext" id="ctext"></textarea>
+				<td colspan="4">
+					<textarea rows="7" 		placeholder="댓글을 입력하세요" 
+					class="form-control" 	aria-label="With textarea"
+					name="ctext" id="ctext"></textarea>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="4" align="right">
-					<input type="button" value="등록" onclick="commentwrite()">
+					<button type="button" class="btn btn-primary" onclick="commentwrite()">등록</button>
 				</td>
 			</tr>
 			<tbody id="nocoment">
@@ -124,10 +132,10 @@
 				</tr>
 			</tbody>
 		</table>
-		<table style="margin: auto; width: 1000px;" id="comment">
+		<table style="margin: auto; width:900px;" id="comment">
 		
 		</table>
-		<table style="margin: auto; width: 1000px;">
+		<table style="margin: auto; width: 900px;">
 		<tr>
 			<td></td>
 				<td colspan="3" align="center" id="commentpaginglist">
