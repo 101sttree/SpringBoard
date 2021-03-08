@@ -93,9 +93,10 @@ public class userController
 	) 
 	throws Exception
 	{
+		response.setContentType("application/json");
 		PrintWriter pw 		= response.getWriter();
 		Gson 		gson 	= new GsonBuilder().setPrettyPrinting().create();
-		JsonObject 	jObject 		= new JsonObject();
+		JsonObject 	jObject = new JsonObject();
 		HttpSession Session = request.getSession();
 		
 		try 

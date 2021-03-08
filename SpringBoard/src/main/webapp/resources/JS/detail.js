@@ -155,7 +155,7 @@ function commentlist()
 							str += '<th>|_______</th>';
 							str += '<td align="left" colspan="3" id="ctext'+item.cno+'" class="ctext">';
 						}
-						str += '<textarea name="ctext" id="ctext" class="cta" disabled="disabled">'
+						str += '<textarea name="ctext" id="ctext" class="form-control" aria-label="With textarea" disabled="disabled" >'
 						str +=	item.ctext
 						str +=	'</textarea>'
 						str += '</td>';
@@ -171,12 +171,14 @@ function commentlist()
 						str += '<td align="right" colspan="3" style="border-bottom: 1px solid black;" id="tobutton'+item.cno+'">';
 						if(item.grouplayer == 0)
 						{
-							str += '<input type="button" value="답글" onclick="anloginCheck('+item.cno+','+item.uno+')">';
+							//str += '<input type="button" value="답글" onclick="anloginCheck('+item.cno+','+item.uno+')">';
+							str += '<button type="button" class="btn btn-primary" onclick="anloginCheck('+item.cno+','+item.uno+')">답글</button>';
 						}
 						if(uno == item.uno)
 						{
-							str += '<input type="button" value="수정" onclick="cmody('+item.cno+','+item.uno+')">';
-							str += '<input type="button" value="삭제" onclick="cdelete('+item.cno+','+item.origino+')">';
+							str += '<button type="button" class="btn btn-primary" onclick="cmody('+item.cno+','+item.uno+')">수정하기</button>';
+							str += '<button type="button" class="btn btn-danger" onclick="cdelete('+item.cno+','+item.origino+')">삭제하기</button>';
+							
 						}
 						str += '</td>';
 						str += '</tr>';
@@ -233,15 +235,15 @@ function canswer(cno,uno)
 	str += '<tr>';
 	str += '<th></th>';
 	str += '<td align="left" colspan="3" id="ctextan'+cno+'" class="ctextan">';
-	str += '<textarea rows="7" name="ctext" id="ctextan" class="ctaan">';
+	str += '<textarea name="ctext" id="ctextan" class="form-control" aria-label="With textarea">';
 	str +=	'</textarea>'
 	str += '</td>';
 	str += '</tr>';
 	str += '<tr>';
 	str += '<td></td>';
 	str += '<td align="right" colspan="3" style="border-bottom: 1px solid black;" id="tobutton'+cno+'">';
-	str += '<input type="button" value="등록" onclick="canswerok('+cno+','+uno+')">';
-	str += '<input type="button" value="취소" onclick="canswerno('+cno+')">';
+	str += '<button type="button" class="btn btn-primary" onclick="canswerok('+cno+','+uno+')">등록</button>';
+	str += '<button type="button" class="btn btn-danger" onclick="canswerno('+cno+')">취소</button>';
 	str += '</td>';
 	str += '</tr>';
 	$("#cbody"+cno+"").append(str);
@@ -286,10 +288,10 @@ function canswerno()
 //댓글 수정
 function cmody(cno,uno)
 {
-	let str = '<textarea rows="7" cols="50" placeholder="댓글을 입력하세요" name="ctext" id="ctextmody">';
+	let str = '<textarea cols="50" placeholder="댓글을 입력하세요" name="ctext" id="ctextmody" class="form-control" aria-label="With textarea">';
 	$("#ctext"+cno+"").html(str);
-	let str2 =  '<input type="button" value="저장" onclick="cmodyok('+cno+','+uno+')">';
-		str2 += '<input type="button" value="취소" onclick="cmodyno('+cno+')">';
+	let str2 = '<button type="button" class="btn btn-primary" onclick="cmodyok('+cno+','+uno+')">저장</button>';
+		str2 += '<button type="button" class="btn btn-danger" onclick="cmodyno('+cno+')">취소</button>';
 	$("#tobutton"+cno+"").html(str2);	
 }
 //댓글 수정 확인
@@ -311,13 +313,15 @@ function cmodyok(cno,uno)
 				if(data.check == "ok")
 				{
 					let str = '';
-						str += '<textarea rows="7" cols="50" name="ctext" id="ctext" class="cta" disabled="disabled">';
+						str += '<textarea  cols="50" name="ctext" id="ctext" class="form-control" aria-label="With textarea" disabled="disabled">';
 						str += cinfo.ctext;
 						str += '</textarea>'
 					$("#ctext"+cinfo.cno+"").html(str);
 					let str2 = '';
-						str2 += '<input type="button" value="수정" onclick="cmody('+cinfo.cno+','+cinfo.uno+')">';
-						str2 += '<input type="button" value="삭제" onclick="cdelete('+cinfo.cno+','+cinfo.uno+')">';
+						//str2 += '<input type="button" value="수정" onclick="cmody('+cinfo.cno+','+cinfo.uno+')">';
+						//str2 += '<input type="button" value="삭제" onclick="cdelete('+cinfo.cno+','+cinfo.uno+')">';
+						str2 += '<button type="button" class="btn btn-primary" 	onclick="cmody('+cinfo.cno+','+cinfo.uno+')">수정</button>';
+						str2 += '<button type="button" class="btn btn-danger" 	onclick="cdelete('+cinfo.cno+','+cinfo.uno+')">삭제</button>';
 					$("#tobutton"+cinfo.cno+"").html(str2);
 				}
 	        },
@@ -345,16 +349,17 @@ function cmodyno(cno)
 				if(data.check == "no")
 				{
 					let str = '';
-						str += '<textarea rows="7" cols="50" name="ctext" id="ctext" class="cta" disabled="disabled">';
+						str += '<textarea  cols="50" name="ctext" id="ctext" class="form-control" aria-label="With textarea" disabled="disabled">';
 						str += cinfo.ctext;
 						str += '</textarea>'
 							
 					$("#ctext"+cinfo.cno+"").html(str);
 						
 					let str2 = '';
-						str2 += '<input type="button" value="수정" onclick="cmody('+cinfo.cno+','+cinfo.uno+')">';
-						str2 += '<input type="button" value="삭제" onclick="cdelete('+cinfo.cno+','+cinfo.uno+')">';
-					
+						//str2 += '<input type="button" value="수정" onclick="cmody('+cinfo.cno+','+cinfo.uno+')">';
+						//str2 += '<input type="button" value="삭제" onclick="cdelete('+cinfo.cno+','+cinfo.uno+')">';
+						str2 += '<button type="button" class="btn btn-primary" 	onclick="cmody('+cinfo.cno+','+cinfo.uno+')">수정</button>';
+						str2 += '<button type="button" class="btn btn-danger" 	onclick="cdelete('+cinfo.cno+','+cinfo.uno+')">삭제</button>';
 					$("#tobutton"+cinfo.cno+"").html(str2);
 						
 				}

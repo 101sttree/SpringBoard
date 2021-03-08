@@ -130,19 +130,25 @@ $(document).ready(function()
 function login()
 {
 	if($("#id").val()=="")
-		{
-			alert("아이디를 입력하십시오");
-			return;
-		}
+	{
+		alert("아이디를 입력하십시오");
+		alert("왜 리턴이 안되죠?");
+		return;
+	}
+	
 	if($("#pw").val()=="")
 	{
 		alert("비밀번호를 입력하십시오");
 		return;
 	}
 	
-	
+	loginajax();
+}	
+function loginajax()
+{
 	$.ajax
 	({
+		
 		url: "/login",
 		type: "post",
 		data:
@@ -158,16 +164,19 @@ function login()
 			if(data.check != "success")
 			{
 				alert("로그인에 실패하였습니다.");
+				console.log(data);
 				return;
 			}
 			if(data.result == "idfail")
 			{
 				alert("존재하지 않는 아이디 입니다.");
+				console.log(data);
 				return;	
 			}
 			if(data.result == "pwfail")
 			{
 				alert("비밀번호가 틀렸습니다.");
+				console.log(data);
 				return;
 			}
 			if(data.result == "loginok")
